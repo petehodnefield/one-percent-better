@@ -1,7 +1,13 @@
+"use client";
 import Image from "next/image";
 // Styles import
 import styles from "./styles/Home.module.css";
 import mountainsImage from "../../public/assets/images/mountains.png";
+
+// Chart import
+import { Line } from "react-chartjs-2";
+import Chart from "chart.js/auto";
+
 export default function Home() {
   const dateToday = new Date().getFullYear();
   return (
@@ -26,7 +32,26 @@ export default function Home() {
         </div>
 
         {/* Graph with data */}
-        <div className="home-data rounded"></div>
+        <div className="home-data rounded">
+          <Line
+            datasetIdKey="id"
+            data={{
+              labels: ["Jun", "Jul", "Aug"],
+              datasets: [
+                {
+                  id: 1,
+                  label: "hi",
+                  data: [5, 6, 7],
+                },
+                {
+                  id: 2,
+                  label: "hi",
+                  data: [3, 2, 1],
+                },
+              ],
+            }}
+          />
+        </div>
 
         {/* Form where you input what you worked on that day */}
         <form id="improvementForm" className="form">
