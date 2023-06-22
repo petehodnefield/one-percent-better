@@ -9,31 +9,38 @@ import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 
 export default function Home() {
-  const dateToday = new Date().getFullYear();
-
-  {
-    /* The dates, descriptions, and numbers need to be grouped as an object */
-  }
-  {
-    /* Labels - map through the dates */
-  }
-  {
-    /* Data - map through the numbers */
-  }
-
-  const dates = [
-    "August 1, 2023",
-    "August 2, 2023",
-    "August 3, 2023",
-    "August 4, 2023",
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
-  const improvements = [1, 1.01, 1.0202, 1.303];
-  const descriptions = [
-    "Today I worked on TypeScript",
-    "Today I learned about React server side components",
-    "Today I worked on TypeScript",
-    "Today I learned about React server side components",
-  ];
+
+  const month = monthNames[new Date().getMonth()];
+  const day = new Date().getDate();
+  const year = new Date().getFullYear();
+  const todaysDate = `${month} ${day}, ${year}`;
+
+  const dummyNumber = 1.0101;
+  const dummyDate = "June 24, 2023";
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    localStorage.setItem("date", dummyDate);
+    localStorage.setItem("number", dummyNumber);
+    console.log(`local storage ${localStorage}`);
+  };
+
+  const dates = [localStorage.getItem("date")];
+  const improvements = [localStorage.getItem("number")];
+  const descriptions = [];
 
   const improvementData = dates.map((date, index) => {
     let dateObject = {};
@@ -86,7 +93,7 @@ export default function Home() {
         </div>
 
         {/* Form where you input what you worked on that day */}
-        <form id="improvementForm" className="form">
+        <form onSubmit={handleFormSubmit} id="improvementForm" className="form">
           <div className="improvement-form__content">
             <div className="improvement-form__text-wrapper improvement-form__text-wrapper--left">
               <h3 className="improvement-form__title--sm">
@@ -96,7 +103,7 @@ export default function Home() {
             </div>
             <div className="improvement-form__text-wrapper improvement-form__text-wrapper--centered">
               <h3 className="improvement-form__title--lg">Today's date</h3>
-              <p className="improvement-form__date">June 2, {dateToday}</p>
+              <p className="improvement-form__date">{todaysDate}</p>
               <button
                 type="submit"
                 className="btn btn--lg btn--dark rounded-md"
