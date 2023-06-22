@@ -10,6 +10,39 @@ import Chart from "chart.js/auto";
 
 export default function Home() {
   const dateToday = new Date().getFullYear();
+
+  {
+    /* The dates, descriptions, and numbers need to be grouped as an object */
+  }
+  {
+    /* Labels - map through the dates */
+  }
+  {
+    /* Data - map through the numbers */
+  }
+
+  const dates = [
+    "August 1, 2023",
+    "August 2, 2023",
+    "August 3, 2023",
+    "August 4, 2023",
+  ];
+  const improvements = [1, 1.01, 1.0202, 1.303];
+  const descriptions = [
+    "Today I worked on TypeScript",
+    "Today I learned about React server side components",
+    "Today I worked on TypeScript",
+    "Today I learned about React server side components",
+  ];
+
+  const improvementData = dates.map((date, index) => {
+    let dateObject = {};
+    dateObject.date = date;
+    dateObject.improvement = improvements[index];
+    dateObject.description = descriptions[index];
+    return dateObject;
+  });
+
   return (
     <main className="home">
       {/* Background image */}
@@ -36,17 +69,16 @@ export default function Home() {
           <Line
             datasetIdKey="id"
             data={{
-              labels: ["Jun", "Jul", "Aug"],
+              labels: [],
               datasets: [
                 {
                   id: 1,
-                  label: "hi",
-                  data: [5, 6, 7],
-                },
-                {
-                  id: 2,
-                  label: "hi",
-                  data: [3, 2, 1],
+                  label: "Web development skills",
+                  data: improvementData,
+                  parsing: {
+                    xAxisKey: "date",
+                    yAxisKey: "improvement",
+                  },
                 },
               ],
             }}
