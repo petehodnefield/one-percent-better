@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useState } from "react";
 // Styles import
 import styles from "./styles/Home.module.css";
 import mountainsImage from "../../public/assets/images/mountains.png";
@@ -9,6 +10,7 @@ import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 
 export default function Home() {
+  // Date formats
   const monthNames = [
     "January",
     "February",
@@ -23,14 +25,21 @@ export default function Home() {
     "November",
     "December",
   ];
-
   const month = monthNames[new Date().getMonth()];
   const day = new Date().getDate();
   const year = new Date().getFullYear();
   const todaysDate = `${month} ${day}, ${year}`;
 
+  // State handling our form improvement data
+  const [newImprovement, setNewImprovement] = useState({
+    date: todaysDate,
+    number: "",
+    description: "",
+  });
+
   const dummyNumber = 1.0101;
   const dummyDate = "June 24, 2023";
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem("date", dummyDate);
@@ -53,7 +62,11 @@ export default function Home() {
   return (
     <main className="home">
       {/* Background image */}
-      <Image className="cover bg-img" src={mountainsImage} />
+      <Image
+        className="cover bg-img"
+        src={mountainsImage}
+        alt="A background image of colorful mountains representing growth"
+      />
 
       {/* Title */}
       <div className="home__title-wrapper rounded-lg">
@@ -99,7 +112,15 @@ export default function Home() {
               <h3 className="improvement-form__title--sm">
                 What I learned/practiced
               </h3>
-              <textarea className="form__textarea form__textarea--light rounded"></textarea>
+              <textarea
+                onChange={(e) =>
+                  setNewImprovement({
+                    ...newImprovement,
+                    description: e.target.value,
+                  })
+                }
+                className="form__textarea form__textarea--light rounded"
+              ></textarea>
             </div>
             <div className="improvement-form__text-wrapper improvement-form__text-wrapper--centered">
               <h3 className="improvement-form__title--lg">Today's date</h3>
