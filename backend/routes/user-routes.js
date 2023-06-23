@@ -4,13 +4,9 @@ const router = express.Router();
 import User from "../models/User.js";
 
 router.post("/", async (req, res) => {
+  console.log(`Request body ${req.body}`);
   const newPerson = new User({
-    name: "Peter",
-    improvements: {
-      date: "June 23, 2023",
-      skillPercentage: 1,
-      description: "Today I worked on TypeScript",
-    },
+    name: req.body.name,
   });
   const insertedUser = await newPerson.save();
 

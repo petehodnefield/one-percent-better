@@ -1,8 +1,12 @@
 import express from "express";
+import bodyParser from "body-parser";
+import pkg from "body-parser";
+const { urlencoded } = pkg;
 import mongoose from "mongoose";
 import userRoute from "./routes/user-routes.js";
 
 import dotenv from "dotenv";
+import User from "./models/User.js";
 dotenv.config();
 
 // DB Connection
@@ -14,9 +18,19 @@ mongoose.connection.on("error", (err) => {
 const app = express();
 const port = 3001;
 
+// Middleware
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+
 // Routes
 app.use("/user", userRoute);
 
-app.listen(port, () => {
+app.listen(port, async () => {
+  // await User.deleteMany();
+
   console.log(`🚀 Example app listening on port ${port}`);
 });
