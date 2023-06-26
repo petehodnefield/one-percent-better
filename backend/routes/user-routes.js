@@ -17,7 +17,17 @@ router.post("/", async (req, res) => {
 // Get all Users
 router.get("/", async (req, res) => {
   const allUsers = await User.find();
+
   return res.status(200).json(allUsers);
+});
+
+// Get a User
+router.get("/:id", async (req, res) => {
+  const user = await User.findOne({ _id: req.params.id });
+  if (!res) {
+    return res.status(404).json({ message: "User not found!" });
+  }
+  return res.status(200).json(user);
 });
 
 // Update a User

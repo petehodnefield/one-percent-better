@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // Styles import
 import styles from "./styles/Home.module.css";
 import mountainsImage from "../../public/assets/images/mountains.png";
@@ -42,22 +42,32 @@ export default function Home() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem("date", dummyDate);
-    localStorage.setItem("number", dummyNumber);
-    console.log(`local storage ${localStorage}`);
   };
 
-  const dates = [localStorage.getItem("date")];
-  const improvements = [localStorage.getItem("number")];
-  const descriptions = [];
+  // const improvementData = dates.map((date, index) => {
+  //   let dateObject = {};
+  //   dateObject.date = date;
+  //   dateObject.improvement = improvements[index];
+  //   dateObject.description = descriptions[index];
+  //   return dateObject;
+  // });
 
-  const improvementData = dates.map((date, index) => {
-    let dateObject = {};
-    dateObject.date = date;
-    dateObject.improvement = improvements[index];
-    dateObject.description = descriptions[index];
-    return dateObject;
-  });
+  async function fetchApi() {
+    const url = "http://localhost:3001/user";
+    const response = await fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const jsonData = await response.json();
+    console.log(jsonData);
+  }
+
+  useEffect(() => {
+    fetchApi();
+  }, []);
 
   return (
     <main className="home">
@@ -91,15 +101,15 @@ export default function Home() {
             data={{
               labels: [],
               datasets: [
-                {
-                  id: 1,
-                  label: "Web development skills",
-                  data: improvementData,
-                  parsing: {
-                    xAxisKey: "date",
-                    yAxisKey: "improvement",
-                  },
-                },
+                // {
+                //   id: 1,
+                //   label: "Web development skills",
+                //   data: improvementData,
+                //   parsing: {
+                //     xAxisKey: "date",
+                //     yAxisKey: "improvement",
+                //   },
+                // },
               ],
             }}
           />
