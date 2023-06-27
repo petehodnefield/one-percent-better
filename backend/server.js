@@ -4,7 +4,7 @@ import pkg from "body-parser";
 const { urlencoded } = pkg;
 import mongoose from "mongoose";
 import userRoute from "./routes/user-routes.js";
-
+import cors from "cors";
 import dotenv from "dotenv";
 import User from "./models/User.js";
 dotenv.config();
@@ -34,8 +34,17 @@ app.use(
   })
 );
 
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 // Routes
 app.use("/user", userRoute);
+
+app.use((req, res) => {
+  res.status(404).end();
+});
 
 app.listen(port, async () => {
   seedDB();

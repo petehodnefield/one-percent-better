@@ -31,11 +31,8 @@ export default function Home() {
   const todaysDate = `${month} ${day}, ${year}`;
 
   // State handling our form improvement data
-  const [newImprovement, setNewImprovement] = useState({
-    date: todaysDate,
-    number: "",
-    description: "",
-  });
+  const [improvements, setImprovements] = useState([]);
+  console.log(`improvment ${improvements}`);
 
   const dummyNumber = 1.0101;
   const dummyDate = "June 24, 2023";
@@ -51,23 +48,48 @@ export default function Home() {
   //   dateObject.description = descriptions[index];
   //   return dateObject;
   // });
-
-  async function fetchApi() {
-    const url = "http://localhost:3001/user";
-    const response = await fetch(url, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const jsonData = await response.json();
-    console.log(jsonData);
-  }
+  const url = "https://one-percent-better-api.onrender.com/user";
 
   useEffect(() => {
-    fetchApi();
-  }, []);
+    fetch("http://localhost:3001/user", {
+      mode: "cors",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": true,
+    })
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  });
+
+  // async function fetchApi() {
+  //   try {
+  //     const response = await fetch(url, {
+  //       method: "GET",
+  //       mode: "no-cors",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Access-Control-Allow-Origin": "*",
+  //         "Access-Control-Allow-Credentials": true,
+  //       },
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error("Network response was not OK");
+  //     }
+  //     const jsonData = await response.json();
+  //     return jsonData;
+  //     // const update = await setImprovements((oldImprovements) => [
+  //     //   ...oldImprovements,
+  //     //   jsonData[0].improvements[1],
+  //     // ]);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
+  // fetchApi();
 
   return (
     <main className="home">
