@@ -2,7 +2,6 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 // Styles import
-import styles from "./styles/Home.module.css";
 import mountainsImage from "../../public/assets/images/mountains.png";
 
 // Chart import
@@ -32,64 +31,52 @@ export default function Home() {
 
   // State handling our form improvement data
   const [improvements, setImprovements] = useState([]);
-  console.log(`improvment ${improvements}`);
-
-  const dummyNumber = 1.0101;
-  const dummyDate = "June 24, 2023";
+  console.log(improvements);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
   };
 
-  // const improvementData = dates.map((date, index) => {
-  //   let dateObject = {};
-  //   dateObject.date = date;
-  //   dateObject.improvement = improvements[index];
-  //   dateObject.description = descriptions[index];
-  //   return dateObject;
-  // });
   const url = "https://one-percent-better-api.onrender.com/user";
 
-  useEffect(() => {
-    fetch("http://localhost:3001/user", {
+  async function fetchAPI() {
+    const response = await fetch("http://localhost:3001/user", {
       mode: "cors",
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Credentials": true,
-    })
-      .then((res) => {
-        console.log(res);
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-      });
-  });
+    });
+    const jsonData = await response.json();
+    // return response.json();
+    const individualDataArrays = await jsonData[0].improvements.map(
+      (data, index) => {
+        console.log(data.date);
+        console.log(data.skillPercentage);
+        setImprovements((oldImprovments) => [
+          ...oldImprovments,
+          {
+            date: data.date,
+            improvement: data.skillPercentage,
+          },
+        ]);
+      }
+    );
+  }
 
-  // async function fetchApi() {
-  //   try {
-  //     const response = await fetch(url, {
-  //       method: "GET",
-  //       mode: "no-cors",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "Access-Control-Allow-Origin": "*",
-  //         "Access-Control-Allow-Credentials": true,
-  //       },
-  //     });
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not OK");
-  //     }
-  //     const jsonData = await response.json();
-  //     return jsonData;
-  //     // const update = await setImprovements((oldImprovements) => [
-  //     //   ...oldImprovements,
-  //     //   jsonData[0].improvements[1],
-  //     // ]);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-  // fetchApi();
+  useEffect(() => {
+    fetchAPI();
+    // .then(() => {
+    //   const improvementData = improvements.map((date, index) => {
+    //     console.log(date[index]);
+    //     let dateObject = {};
+    //     dateObject.date = date[index].date;
+    //     dateObject.improvement = date[index].skillPercentage;
+    //     return dateObject;
+    //   });
+    //   setImprovements(improvementData);
+    // });
+  }, []);
+
+  if (improvements.length < 0) return <div>Loading...</div>;
 
   return (
     <main className="home">
@@ -118,23 +105,27 @@ export default function Home() {
 
         {/* Graph with data */}
         <div className="home-data rounded">
-          <Line
-            datasetIdKey="id"
-            data={{
-              labels: [],
-              datasets: [
-                // {
-                //   id: 1,
-                //   label: "Web development skills",
-                //   data: improvementData,
-                //   parsing: {
-                //     xAxisKey: "date",
-                //     yAxisKey: "improvement",
-                //   },
-                // },
-              ],
-            }}
-          />
+          {improvements ? (
+            <Line
+              datasetIdKey="id"
+              data={{
+                labels: [],
+                datasets: [
+                  {
+                    id: 1,
+                    label: "Web development skills",
+                    data: improvements,
+                    parsing: {
+                      xAxisKey: "date",
+                      yAxisKey: "improvement",
+                    },
+                  },
+                ],
+              }}
+            />
+          ) : (
+            ""
+          )}
         </div>
 
         {/* Form where you input what you worked on that day */}
