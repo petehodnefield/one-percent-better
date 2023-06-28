@@ -1,6 +1,9 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const improvementSchema = new mongoose.Schema({
+  _id: {
+    type: String,
+  },
   date: {
     type: String,
   },
@@ -21,4 +24,4 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
-export default User;
+module.exports = User;

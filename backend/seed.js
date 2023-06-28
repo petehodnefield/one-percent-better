@@ -1,4 +1,4 @@
-import User from "./models/User.js";
+const User = require("./models/User.js");
 const seedDB = async () => {
   await User.deleteMany();
 
@@ -36,4 +36,4 @@ const seedDB = async () => {
   console.log(`🌱 db seeded!`);
 };
 
-export default seedDB;
+module.exports = seedDB;
