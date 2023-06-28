@@ -1,19 +1,19 @@
-import express from "express";
-import bodyParser from "body-parser";
-import pkg from "body-parser";
+const express = require("express");
+const bodyParser = require("body-parser");
+const pkg = require("body-parser");
 const { urlencoded } = pkg;
-import mongoose from "mongoose";
-import userRoute from "./routes/user-routes.js";
-import cors from "cors";
-import dotenv from "dotenv";
-import User from "./models/User.js";
+const mongoose = require("mongoose");
+const userRoute = require("./routes/user-routes.js");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const User = require("./models/User.js");
 dotenv.config();
-import { fileURLToPath } from "url";
-import path from "path";
-import seedDB from "./seed.js";
+const { fileURLToPath } = require("url");
+const path = require("path");
+const seedDB = require("./seed.js");
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 // DB Connection
 mongoose.connect(process.env.MONGODB_URI).catch((error) => console.log(error));
 mongoose.connection.on("error", (err) => {
@@ -43,10 +43,10 @@ app.use(
 app.use("/user", userRoute);
 
 app.use((req, res) => {
-  res.status(404).end();
+  res.status(404).send("Sorry can't find that").end();
 });
 
 app.listen(port, async () => {
-  seedDB();
+  // seedDB();
   console.log(`🚀 Example app listening on port ${port}`);
 });
