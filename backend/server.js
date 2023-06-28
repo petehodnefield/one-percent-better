@@ -47,6 +47,6 @@ app.use((req, res) => {
 });
 
 app.listen(port, async () => {
-  // seedDB();
+  seedDB();
   console.log(`🚀 Example app listening on port ${port}`);
 });

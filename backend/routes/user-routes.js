@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
 
 // Get all Users
 router.get("/", async (req, res) => {
-  const allUsers = await User.find();
+  const allUsers = await User.find().populate("improvements");
 
   return res.status(200).json(allUsers);
 });
@@ -46,4 +46,21 @@ router.put("/:id", async (req, res) => {
   return res.status(200).json(user);
 });
 
+// Delete an improvement
+// Find the user by ID
+// Delete a specific improvement? How?
+router.put("/improvements/:id", async (req, res) => {
+  const user = await User.updateOne(
+    { _id: req.query.id },
+    {
+      $pull: {
+        improvements: { date: "June 28, 2023" },
+      },
+    }
+  );
+  if (!res) {
+    return res.status(404).json({ message: "User not found!" });
+  }
+  return res.status(200).json(user);
+});
 module.exports = router;
