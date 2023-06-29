@@ -24,14 +24,15 @@ export default function Home() {
     "November",
     "December",
   ];
-  const month = monthNames[new Date().getMonth()];
-  const day = new Date().getDate();
-  const year = new Date().getFullYear();
-  const todaysDate = `${month} ${day}, ${year}`;
 
-  // State handling our form improvement data
+  // State handling our previous improvements data
   const [improvements, setImprovements] = useState([]);
-  console.log(improvements);
+  // State handling our form data
+  const [newImprovement, setNewImprovement] = useState({});
+
+  // State handling today's date
+  const [todaysDate, setTodaysDate] = useState();
+  console.log("newImprovement", newImprovement);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -48,9 +49,14 @@ export default function Home() {
     const jsonData = await response.json();
     // return response.json();
     const individualDataArrays = await jsonData[0].improvements.map(
-      (data, index) => {
-        console.log(data.date);
-        console.log(data.skillPercentage);
+      (data, index, arr) => {
+        if (arr.length - 1 === index) {
+          const newSkillPercentage = data.skillPercentage * 1.01;
+          setNewImprovement({
+            ...newImprovement,
+            skillPercentage: newSkillPercentage,
+          });
+        }
         setImprovements((oldImprovments) => [
           ...oldImprovments,
           {
@@ -64,16 +70,16 @@ export default function Home() {
 
   useEffect(() => {
     fetchAPI();
-    // .then(() => {
-    //   const improvementData = improvements.map((date, index) => {
-    //     console.log(date[index]);
-    //     let dateObject = {};
-    //     dateObject.date = date[index].date;
-    //     dateObject.improvement = date[index].skillPercentage;
-    //     return dateObject;
-    //   });
-    //   setImprovements(improvementData);
-    // });
+
+    const month = monthNames[new Date().getMonth()];
+    const day = new Date().getDate();
+    const year = new Date().getFullYear();
+    const todaysDate = `${month} ${day}, ${year}`;
+    setTodaysDate(todaysDate);
+    setNewImprovement({
+      ...newImprovement,
+      date: todaysDate,
+    });
   }, []);
 
   if (improvements.length < 0) return <div>Loading...</div>;

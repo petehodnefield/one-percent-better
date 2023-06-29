@@ -3,6 +3,7 @@ const router = express.Router();
 
 // Import model
 const User = require("../models/User.js");
+const Improvement = require("../models/Improvement.js");
 
 // Create User
 router.post("/", async (req, res) => {
@@ -63,4 +64,20 @@ router.put("/improvements/:id", async (req, res) => {
   }
   return res.status(200).json(user);
 });
+// Create an improvement
+router.post("/:userId", async (req, res) => {
+  const newImprovement = new Improvement({
+    date: req.body.date,
+    skillPercentage: req.body.skillPercentage,
+    description: req.body.description,
+  });
+  const insertedImprovement = await newImprovement.save();
+  const user = await User.findOne(
+    { _id: req.query.userId },
+    { $push: { improvements: insertedImprovement._id } },
+    { new: true }
+  );
+  return user;
+});
+
 module.exports = router;

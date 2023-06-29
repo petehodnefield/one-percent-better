@@ -4,6 +4,7 @@ const pkg = require("body-parser");
 const { urlencoded } = pkg;
 const mongoose = require("mongoose");
 const userRoute = require("./routes/user-routes.js");
+const improvementRoute = require("./routes/improvement-routes.js");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const User = require("./models/User.js");
@@ -41,12 +42,13 @@ app.use(
 );
 // Routes
 app.use("/user", userRoute);
+app.use("/improvement", improvementRoute);
 
 app.use((req, res) => {
   res.status(404).send("Sorry can't find that").end();
 });
 
 app.listen(port, async () => {
-  seedDB();
+  // seedDB();
   console.log(`🚀 Example app listening on port ${port}`);
 });
