@@ -25,13 +25,18 @@ export default function Home() {
     "December",
   ];
 
+  const month = monthNames[new Date().getMonth()];
+  const day = new Date().getDate();
+  const year = new Date().getFullYear();
+  const todaysDate = `${month} ${day}, ${year}`;
   // State handling our previous improvements data
   const [improvements, setImprovements] = useState([]);
   // State handling our form data
   const [newImprovement, setNewImprovement] = useState({});
 
+  const [completedImprovement, setCompletedImprovement] = useState();
+
   // State handling today's date
-  const [todaysDate, setTodaysDate] = useState();
   console.log("newImprovement", newImprovement);
 
   async function addNewImprovement(url, data) {
@@ -47,6 +52,7 @@ export default function Home() {
       body: JSON.stringify(data),
     });
     const jsonData = await response.json();
+    setCompletedImprovement(true);
     console.log(jsonData);
   }
 
@@ -57,6 +63,8 @@ export default function Home() {
       newImprovement
     );
   };
+
+  // If there's a date matching the current date, make the button disabled
 
   const url = "https://one-percent-better-api.onrender.com/user";
 
@@ -75,31 +83,15 @@ export default function Home() {
           setNewImprovement({
             ...newImprovement,
             skillPercentage: newSkillPercentage,
+            date: todaysDate,
           });
         }
-        setImprovements((oldImprovments) => [
-          ...oldImprovments,
-          {
-            date: data.date,
-            improvement: data.skillPercentage,
-          },
-        ]);
       }
     );
   }
 
   useEffect(() => {
     fetchAPI();
-
-    const month = monthNames[new Date().getMonth()];
-    const day = new Date().getDate();
-    const year = new Date().getFullYear();
-    const todaysDate = `${month} ${day}, ${year}`;
-    setTodaysDate(todaysDate);
-    setNewImprovement({
-      ...newImprovement,
-      date: todaysDate,
-    });
   }, []);
 
   if (improvements.length < 0) return <div>Loading...</div>;
@@ -176,7 +168,9 @@ export default function Home() {
               <p className="improvement-form__date">{todaysDate}</p>
               <button
                 type="submit"
-                className="btn btn--lg btn--dark rounded-md"
+                className={`btn btn--lg btn--dark rounded-md ${
+                  completedImprovement ? "disabled" : ""
+                }`}
               >
                 Add improvement
               </button>
