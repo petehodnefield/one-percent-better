@@ -22,4 +22,12 @@ router.post("/:id", async (req, res) => {
   return res.status(201).json(updatedUser);
 });
 
+// Delete an improvement
+router.delete("/:id", async (req, res) => {
+  const deleteImprovement = await Improvement.findOneAndDelete({
+    _id: req.query.id,
+  });
+  return res.status(201).json(deleteImprovement);
+});
+
 module.exports = router;
