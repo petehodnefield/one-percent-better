@@ -29,19 +29,18 @@ export default function Home() {
   const day = new Date().getDate();
   const year = new Date().getFullYear();
   const todaysDate = `${month} ${day}, ${year}`;
+
   // State handling our previous improvements data
   const [improvements, setImprovements] = useState([]);
   // State handling our form data
   const [newImprovement, setNewImprovement] = useState({});
+  console.log(newImprovement);
 
   const [completedImprovement, setCompletedImprovement] = useState();
 
-  // State handling today's date
-  console.log("newImprovement", newImprovement);
-
-  async function addNewImprovement(url, data) {
+  async function addNewImprovement(url, user, data) {
     console.log(JSON.stringify(data));
-    const response = await fetch(url, {
+    const response = await fetch(`${url}${user}`, {
       method: "POST",
       mode: "cors",
       "Access-Control-Allow-Origin": "*",
@@ -59,7 +58,8 @@ export default function Home() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     addNewImprovement(
-      `http://localhost:3001/improvement/improvement?id=${"649d8235922db9507c016648"}`,
+      `http://localhost:3001/improvement/improvement?id=`,
+      "649d8a17638d1e4b4034bfd5",
       newImprovement
     );
   };
@@ -79,6 +79,10 @@ export default function Home() {
     const individualDataArrays = await jsonData[0].improvements.map(
       (data, index, arr) => {
         if (arr.length - 1 === index) {
+          if (data.date === todaysDate) {
+            setCompletedImprovement(true);
+            return;
+          }
           const newSkillPercentage = data.skillPercentage * 1.01;
           setNewImprovement({
             ...newImprovement,
@@ -86,6 +90,13 @@ export default function Home() {
             date: todaysDate,
           });
         }
+        setImprovements((oldImprovments) => [
+          ...oldImprovments,
+          {
+            date: data.date,
+            improvement: data.skillPercentage,
+          },
+        ]);
       }
     );
   }
@@ -169,7 +180,7 @@ export default function Home() {
               <button
                 type="submit"
                 className={`btn btn--lg btn--dark rounded-md ${
-                  completedImprovement ? "disabled" : ""
+                  completedImprovement ? "btn--disabled" : ""
                 }`}
               >
                 Add improvement

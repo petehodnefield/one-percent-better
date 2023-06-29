@@ -87,6 +87,7 @@ a {
 .btn--disabled {
   background-color: var(--light);
   color: var(--medium);
+  pointer-events: none;
 }
 .btn--lg {
   height: 3rem;
