@@ -34,8 +34,28 @@ export default function Home() {
   const [todaysDate, setTodaysDate] = useState();
   console.log("newImprovement", newImprovement);
 
+  async function addNewImprovement(url, data) {
+    console.log(JSON.stringify(data));
+    const response = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const jsonData = await response.json();
+    console.log(jsonData);
+  }
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    addNewImprovement(
+      `http://localhost:3001/improvement/improvement?id=${"649d8235922db9507c016648"}`,
+      newImprovement
+    );
   };
 
   const url = "https://one-percent-better-api.onrender.com/user";
