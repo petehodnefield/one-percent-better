@@ -22,6 +22,16 @@ router.post("/:id", async (req, res) => {
   return res.status(201).json(updatedUser);
 });
 
+// Update an improvement's description
+router.put("/:id", async (req, res) => {
+  const updateImprovement = await Improvement.findOneAndUpdate(
+    { _id: req.query.id },
+    { description: req.body.description },
+    { new: true }
+  );
+  return res.status(201).json(updateImprovement);
+});
+
 // Delete an improvement
 router.delete("/:id", async (req, res) => {
   const deleteImprovement = await Improvement.findOneAndDelete({
