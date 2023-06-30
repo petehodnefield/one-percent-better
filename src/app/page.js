@@ -5,8 +5,11 @@ import { useState, useEffect } from "react";
 import mountainsImage from "../../public/assets/images/mountains.png";
 
 // Chart import
+import Link from "next/link";
+import GraphView from "./components/GraphView";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
+import ListView from "./list-view/page";
 
 export default function Home() {
   // Date formats
@@ -34,9 +37,11 @@ export default function Home() {
   const [improvements, setImprovements] = useState([]);
   // State handling our form data
   const [newImprovement, setNewImprovement] = useState({});
-  console.log(newImprovement);
 
   const [completedImprovement, setCompletedImprovement] = useState();
+
+  const [view, setView] = useState("graph");
+  console.log("view", view);
 
   async function addNewImprovement(url, user, data) {
     console.log(JSON.stringify(data));
@@ -59,9 +64,11 @@ export default function Home() {
     e.preventDefault();
     addNewImprovement(
       `http://localhost:3001/improvement/improvement?id=`,
-      "649d8a17638d1e4b4034bfd5",
+      // Change this to dynamic userId
+      "649eec70afbc72fa9dc9387a",
       newImprovement
     );
+    window.location.reload();
   };
 
   // If there's a date matching the current date, make the button disabled
@@ -71,17 +78,17 @@ export default function Home() {
   async function fetchAPI() {
     const response = await fetch("http://localhost:3001/user", {
       mode: "cors",
+      method: "GET",
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Credentials": true,
     });
     const jsonData = await response.json();
-    // return response.json();
+    console.log("jsonData", jsonData);
     const individualDataArrays = await jsonData[0].improvements.map(
       (data, index, arr) => {
         if (arr.length - 1 === index) {
           if (data.date === todaysDate) {
             setCompletedImprovement(true);
-            return;
           }
           const newSkillPercentage = data.skillPercentage * 1.01;
           setNewImprovement({
@@ -117,11 +124,21 @@ export default function Home() {
       />
 
       {/* Title */}
-      <div className="home__title-wrapper rounded-lg">
-        <h1 className="home__title">1% Better</h1>
+      <div className="home__title-wrapper">
+        <div className="home__title-content">
+          <h1>
+            <Link className="home__title" href={"/"}>
+              1% Better
+            </Link>
+          </h1>
+        </div>
       </div>
 
       <div className="home-content rounded-lg">
+        {/* Link to stats view */}
+        <Link href="/list-view" className="btn--view">
+          List view
+        </Link>
         {/* Text wrapper */}
         <div className="home-content__text-wrapper">
           <h2 className="home-content__title">My focus:</h2>

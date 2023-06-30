@@ -5,7 +5,9 @@ import { useState, useEffect } from "react";
 import mountainsImage from "../../../public/assets/images/mountains.png";
 import ImprovementDetails from "../components/ImprovementDetails";
 
-const page = () => {
+import Link from "next/link";
+
+const ListView = ({ setView }) => {
   // Fetch our API for all improvements
   const [improvements, setImprovements] = useState();
 
@@ -33,11 +35,20 @@ const page = () => {
       />
 
       {/* Title */}
-      <div className="home__title-wrapper rounded-lg">
-        <h1 className="home__title">1% Better</h1>
+      <div className="home__title-wrapper">
+        <div className="home__title-content">
+          <h1>
+            <Link className="home__title" href={"/"}>
+              1% Better
+            </Link>
+          </h1>
+        </div>
       </div>
 
       <div className="home-content rounded-lg">
+        <Link href="/" className="btn--view">
+          Graph view
+        </Link>
         {/* Text wrapper */}
         <div className="home-content__text-wrapper">
           <h2 className="home-content__title">My focus:</h2>
@@ -71,4 +82,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ListView;
