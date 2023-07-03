@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
 
 // Import model
 const User = require("../models/User.js");
@@ -51,7 +53,7 @@ router.put("/:id", async (req, res) => {
 // Find the user by ID
 // Delete a specific improvement? How?
 router.put("/improvements/:id", async (req, res) => {
-  const user = await User.updateOne(
+  const user = await User.findOneAndUpdate(
     { _id: req.query.id },
     {
       $pull: {
@@ -72,12 +74,35 @@ router.post("/:userId", async (req, res) => {
     description: req.body.description,
   });
   const insertedImprovement = await newImprovement.save();
-  const user = await User.findOne(
+  const user = await User.findOneAndUpdate(
     { _id: req.query.userId },
     { $push: { improvements: insertedImprovement._id } },
     { new: true }
   );
   return user;
 });
+
+// Login
+router.get("/hello", async (req, res) => {
+  console.log("hi");
+  return res.status(200).json({ message: "good dau" });
+  // res.json({ message: "hello" });
+  // jwt.sign({ foo: "bar" }, "shhhh");
+  // const username = req.body.name;
+  // const user = { name: username };
+  // jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+});
+
+// function authenticateToken(req, res, next) {
+//   const authHeader = req.headers["authorization"];
+//   const token = authHeader && authHeader.split(" ")[1];
+//   if (token === null) return res.sendStatus(401);
+
+//   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+//     if (err) return res.sendStatus(403);
+//     req.user = user;
+//     next();
+//   });
+// }
 
 module.exports = router;

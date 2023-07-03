@@ -86,7 +86,7 @@ const ImprovementDetails = ({ improvement }) => {
           onClick={() => {
             setIsEditing(true);
           }}
-          className="list__column--2"
+          className="list__column--2 description"
         >
           {improvement.description}{" "}
         </p>
@@ -97,6 +97,7 @@ const ImprovementDetails = ({ improvement }) => {
           onChange={(e) => setNewDescription({ description: e.target.value })}
           // disabled={inputDisabled ? true : false}
           ref={inputRef}
+          maxLength={50}
         />
       )}
 

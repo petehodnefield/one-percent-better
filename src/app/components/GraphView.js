@@ -59,7 +59,7 @@ const GraphView = ({
             <h3 className="improvement-form__title--sm">
               What I learned/practiced
             </h3>
-            <textarea
+            <input
               onChange={(e) =>
                 setNewImprovement({
                   ...newImprovement,
@@ -67,7 +67,9 @@ const GraphView = ({
                 })
               }
               className="form__textarea form__textarea--light rounded"
-            ></textarea>
+              maxLength={50}
+              type="text"
+            />
           </div>
           <div className="improvement-form__text-wrapper improvement-form__text-wrapper--centered">
             <h3 className="improvement-form__title--lg">Today's date</h3>

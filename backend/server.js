@@ -12,6 +12,8 @@ dotenv.config();
 const { fileURLToPath } = require("url");
 const path = require("path");
 const seedDB = require("./seed.js");
+const jwt = require("jsonwebtoken");
+const { signToken } = require("./utils/auth.js");
 
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
@@ -43,7 +45,16 @@ app.use(
 // Routes
 app.use("/user", userRoute);
 app.use("/improvement", improvementRoute);
-
+app.post("/hello", (req, res) => {
+  const username = req.body.name;
+  const user = { name: username };
+  const findUser = User.findOne({ name: username });
+  const token = signToken(findUser);
+  return { token };
+  // const username = req.body.name;
+  // const user = { name: username };
+  // jwt.sign(username, process.env.ACCESS_TOKEN_SECRET);
+});
 app.use((req, res) => {
   res.status(404).send("Sorry can't find that").end();
 });

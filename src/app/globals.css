@@ -311,6 +311,12 @@ a {
 .list__column--2 {
   flex: 1.5 1 0;
   width: 0;
+  height: 100%;
+}
+.description {
+  display: flex;
+  align-items: center;
+  overflow-y: auto;
 }
 .list__column--3 {
   flex: 0.75 1 0;

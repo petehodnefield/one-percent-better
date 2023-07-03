@@ -178,10 +178,15 @@ export default function Home() {
         <form onSubmit={handleFormSubmit} id="improvementForm" className="form">
           <div className="improvement-form__content">
             <div className="improvement-form__text-wrapper improvement-form__text-wrapper--left">
-              <h3 className="improvement-form__title--sm">
+              <label
+                htmlFor="improvement"
+                className="improvement-form__title--sm"
+              >
                 What I learned/practiced
-              </h3>
+              </label>
               <textarea
+                name="improvement"
+                id="improvement"
                 onChange={(e) =>
                   setNewImprovement({
                     ...newImprovement,
@@ -189,6 +194,7 @@ export default function Home() {
                   })
                 }
                 className="form__textarea form__textarea--light rounded"
+                maxLength={50}
               ></textarea>
             </div>
             <div className="improvement-form__text-wrapper improvement-form__text-wrapper--centered">
