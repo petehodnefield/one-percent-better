@@ -82,17 +82,6 @@ router.post("/:userId", async (req, res) => {
   return user;
 });
 
-// Login
-router.get("/hello", async (req, res) => {
-  console.log("hi");
-  return res.status(200).json({ message: "good dau" });
-  // res.json({ message: "hello" });
-  // jwt.sign({ foo: "bar" }, "shhhh");
-  // const username = req.body.name;
-  // const user = { name: username };
-  // jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-});
-
 // function authenticateToken(req, res, next) {
 //   const authHeader = req.headers["authorization"];
 //   const token = authHeader && authHeader.split(" ")[1];

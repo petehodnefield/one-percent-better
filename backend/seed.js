@@ -2,9 +2,11 @@ const Improvement = require("./models/Improvement.js");
 const User = require("./models/User.js");
 const seedDB = async () => {
   await User.deleteMany();
+  await Improvement.deleteMany();
 
   const createUser = await User.create({
     name: "Peter",
+    password: "password",
   });
 
   const improvements = await Improvement.create(

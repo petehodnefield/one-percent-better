@@ -22,6 +22,12 @@ router.post("/:id", async (req, res) => {
   return res.status(201).json(updatedUser);
 });
 
+// Get all improvements
+router.get("/", async (req, res) => {
+  const allImprovements = await Improvement.find();
+  return res.status(201).json(allImprovements);
+});
+
 // Update an improvement's description
 router.put("/:id", async (req, res) => {
   const updateImprovement = await Improvement.findOneAndUpdate(
