@@ -62,10 +62,11 @@ export default function Home() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    console.log("Hello world");
     addNewImprovement(
       `http://localhost:3001/improvement/improvement?id=`,
       // Change this to dynamic userId
-      "649eec70afbc72fa9dc9387a",
+      "64be8452534548ff78bea27e",
       newImprovement
     );
     window.location.reload();

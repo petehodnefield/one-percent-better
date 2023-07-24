@@ -45,23 +45,12 @@ app.use(
 // Routes
 app.use("/user", userRoute);
 app.use("/improvement", improvementRoute);
-// Login
-app.post("/login", async (req, res) => {
-  // res.json({ message: "hello" });
-  try {
-    jwt.sign({ name: req.body.name }, "shhhh");
-  } catch (err) {
-    console.log(err);
-  }
-  // const username = req.body.name;
-  // const user = { name: username };
-  // jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-});
+
 app.use((req, res) => {
   res.status(404).send("Sorry can't find that").end();
 });
 
 app.listen(port, async () => {
-  seedDB();
+  // seedDB();
   console.log(`🚀 Example app listening on port ${port}`);
 });

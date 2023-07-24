@@ -81,7 +81,14 @@ router.post("/:userId", async (req, res) => {
   );
   return user;
 });
+// Login
+router.post("/login", async (req, res) => {
+  res.json({ message: "hello" });
 
+  // const username = req.body.name;
+  // const user = { name: username };
+  // jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+});
 // function authenticateToken(req, res, next) {
 //   const authHeader = req.headers["authorization"];
 //   const token = authHeader && authHeader.split(" ")[1];
