@@ -46,6 +46,24 @@ app.use(
 app.use("/user", userRoute);
 app.use("/improvement", improvementRoute);
 
+app.post("/login", async (req, res) => {
+  const username = req.body.name;
+  const password = req.body.password;
+  const user = { username, password };
+  jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+});
+// function authenticateToken(req, res, next) {
+//   const authHeader = req.headers["authorization"];
+//   const token = authHeader && authHeader.split(" ")[1];
+//   if (token === null) return res.sendStatus(401);
+
+//   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+//     if (err) return res.sendStatus(403);
+//     req.user = user;
+//     next();
+//   });
+// }
+
 app.use((req, res) => {
   res.status(404).send("Sorry can't find that").end();
 });
