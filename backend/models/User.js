@@ -6,9 +6,16 @@ const saltRounds = 10;
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
+    required: true,
+    unique: true,
+    min: 1,
+    max: 20,
   },
   password: {
     type: String,
+    required: true,
+    min: 8,
+    max: 20,
   },
   improvements: [
     {
@@ -39,11 +46,22 @@ userSchema.pre("save", function (next) {
   });
 });
 
-userSchema.methods.comparePassword = function (candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
-    if (err) return cb(err);
-    cb(null, isMatch);
-  });
+// Hashing data before updating into database
+userSchema.pre("findOneAndUpdate", async function (next) {
+  try {
+    if (this._update.password) {
+      const hashed = await bcrypt.hash(this._update.password, saltRounds);
+      this._update.password = hashed;
+    }
+    next();
+  } catch (err) {
+    return next(err);
+  }
+});
+
+// compare the incoming password with the hashed password
+userSchema.methods.isCorrectPassword = async function (password) {
+  return bcrypt.compare(password, this.password);
 };
 
 const User = mongoose.model("User", userSchema);

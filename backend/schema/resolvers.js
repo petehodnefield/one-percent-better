@@ -1,6 +1,7 @@
 import { GraphQLError } from "graphql";
 import User from "../models/User.js";
 import Improvement from "../models/Improvement.js";
+import auth from "../utils/auth.js";
 // Resolvers define how to fetch the types defined in your schema.
 export const resolvers = {
   Query: {
@@ -10,6 +11,15 @@ export const resolvers = {
     },
     user: async (parent, args) => {
       return await User.findOne({ _id: args.id }).populate("improvements");
+    },
+    me: async (parent, args, context) => {
+      if (context.user) {
+        const userData = await User.findOne({ _id: context.user._id }).select(
+          "-__v -password"
+        );
+
+        return userData;
+      }
     },
 
     // Improvement Queries
@@ -38,6 +48,24 @@ export const resolvers = {
     deleteUser: async (parent, args) => {
       const deleteUser = await User.findOneAndDelete({ _id: args.id });
       return deleteUser;
+    },
+
+    // Login
+    login: async (parent, args) => {
+      const user = await User.findOne({ username: args.username });
+
+      if (!user) {
+        throw new GraphQLError("Incorrect credentials");
+      }
+
+      const correctPw = await user.isCorrectPassword(args.password);
+
+      if (!correctPw) {
+        throw new GraphQLError("Incorrect credentials");
+      }
+
+      const token = auth.signToken(user);
+      return { token, user };
     },
 
     // Improvement Mutations

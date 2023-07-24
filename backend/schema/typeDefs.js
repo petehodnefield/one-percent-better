@@ -16,9 +16,16 @@ export const typeDefs = `
         description: String
     }
 
+    type Auth {
+        token: ID!
+        user: User
+      }
+
     type Query {
         users: [User]
         user(id: ID!): User
+        me: User
+
 
         improvements: [Improvement]
         improvement(id: ID!): Improvement
@@ -32,5 +39,8 @@ export const typeDefs = `
 
         deleteUser(id: ID!): User
         deleteImprovement(id: ID!): Improvement
+
+        login(username: String!, password: String!): Auth
+
     }
 `;

@@ -1,12 +1,13 @@
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
-const secret = process.env.ACCESS_TOKEN_SECRET;
+const secret = process.env.ACCESS_TOKEN_KEY;
 const expiration = "2h";
 
-module.exports = {
-  signToken: function ({ name }) {
-    const payload = { name };
+const auth = {
+  signToken: function ({ username, _id }) {
+    const payload = { username, _id };
 
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
@@ -36,3 +37,5 @@ module.exports = {
     return req;
   },
 };
+
+export default auth;
