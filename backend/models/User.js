@@ -1,8 +1,5 @@
-const { ObjectId } = require("mongodb");
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const { Schema } = mongoose;
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -49,4 +46,4 @@ userSchema.methods.comparePassword = function (candidatePassword, cb) {
 
 const User = mongoose.model("User", userSchema);
 
-module.exports = User;
+export default User;
