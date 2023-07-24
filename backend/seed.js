@@ -1,11 +1,11 @@
-const Improvement = require("./models/Improvement.js");
-const User = require("./models/User.js");
-const seedDB = async () => {
+import Improvement from "./models/Improvement.js";
+import User from "./models/User.js";
+export default async function seedDB() {
   await User.deleteMany();
   await Improvement.deleteMany();
 
   const createUser = await User.create({
-    name: "Peter",
+    username: "Peter",
     password: "password",
   });
 
@@ -49,6 +49,4 @@ const seedDB = async () => {
   );
   console.log(updateUser);
   console.log(`🌱 db seeded!`);
-};
-
-module.exports = seedDB;
+}

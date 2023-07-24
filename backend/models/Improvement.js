@@ -1,5 +1,4 @@
-const { ObjectId } = require("mongodb");
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const improvementSchema = new mongoose.Schema({
   date: {
@@ -15,4 +14,4 @@ const improvementSchema = new mongoose.Schema({
 
 const Improvement = mongoose.model("Improvement", improvementSchema);
 
-module.exports = Improvement;
+export default Improvement;

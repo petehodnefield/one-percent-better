@@ -7,7 +7,7 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 
 import { typeDefs } from "./schema/typeDefs.js";
 import { resolvers } from "./schema/resolvers.js";
-// import { seedDB } from "./seeds/seeds.js";
+import seedDB from "./seed.js";
 // import auth from "./utils/auth.js";
 
 const db = await mongoose.connect(

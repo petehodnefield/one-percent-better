@@ -12,14 +12,25 @@ export const typeDefs = `
     type Improvement {
         _id: ID
         date: String
-        skillPercentage: Int
+        skillPercentage: Float
         description: String
     }
 
     type Query {
         users: [User]
+        user(id: ID!): User
+
+        improvements: [Improvement]
+        improvement(id: ID!): Improvement
     }
     type Mutation {
         addUser(username: String!, password: String!): User
+        addImprovement(date: String!, skillPercentage: Float!, description: String!, userId: ID!): Improvement
+
+        updateUser(id: ID!, username: String, password: String): User
+        updateImprovement(id: ID!, date: String, skillPercentage: Float, description: String): Improvement
+
+        deleteUser(id: ID!): User
+        deleteImprovement(id: ID!): Improvement
     }
 `;
