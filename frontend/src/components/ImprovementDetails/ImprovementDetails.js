@@ -1,46 +1,68 @@
 import React, { useState, useRef } from "react";
-
+import { useMutation } from "@apollo/client";
+import { DELETE_IMPROVEMENT, UPDATE_IMPROVEMENT } from "../../utils/mutations";
+import Loading from "../Loading/Loading";
+import Error from "../Error/Error";
 const ImprovementDetails = ({ improvement }) => {
-  const [newDescription, setNewDescription] = useState({});
+  const [newDescription, setNewDescription] = useState("");
+  console.log(newDescription);
   const [inputDisabled, setInputDisabled] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  console.log(newDescription);
 
   const inputRef = useRef(null);
 
-  const deleteImprovement = async (improvementID) => {
-    const response = await fetch(
-      `http://localhost:3001/improvement/improvement?id=${improvementID}`,
-      {
-        method: "DELETE",
-        mode: "cors",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const jsonData = await response.json();
-    window.location.reload();
-  };
+  const [deleteImprovement, { loading, data, error }] =
+    useMutation(DELETE_IMPROVEMENT);
 
-  const updateImprovementDescription = async (improvementID, data) => {
-    console.log(data);
-    const response = await fetch(
-      `http://localhost:3001/improvement/improvement?id=${improvementID}`,
-      {
-        method: "PUT",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
+  const [
+    updateImprovementMutation,
+    { loading: updateLoading, data: updateData, error: updateError },
+  ] = useMutation(UPDATE_IMPROVEMENT);
+
+  async function removeImprovement(improvement) {
+    try {
+      deleteImprovement({
+        variables: {
+          deleteImprovementId: improvement,
         },
-        body: JSON.stringify(data),
-      }
-    );
-    const jsonData = await response.json();
-    window.location.reload();
-  };
+      });
+      window.location.reload();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  async function updateImprovement(id, description) {
+    try {
+      await updateImprovementMutation({
+        variables: {
+          updateImprovementId: id,
+          description: description,
+        },
+      });
+      window.location.reload();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  if (loading || updateLoading) return <Loading />;
+  if (error || updateError) return <Error />;
+  // const updateImprovementDescription = async (improvementID, data) => {
+  //   console.log(data);
+  //   const response = await fetch(
+  //     `http://localhost:3001/improvement/improvement?id=${improvementID}`,
+  //     {
+  //       method: "PUT",
+  //       mode: "cors",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(data),
+  //     }
+  //   );
+  //   const jsonData = await response.json();
+  //   window.location.reload();
+  // };
   return (
     <div className="list__details-wrapper">
       {/* Date */}
@@ -64,7 +86,7 @@ const ImprovementDetails = ({ improvement }) => {
               onClick={() => {
                 setInputDisabled(false);
                 setIsEditing(false);
-                updateImprovementDescription(improvement._id, newDescription);
+                updateImprovement(improvement._id, newDescription.description);
               }}
             >
               Save
@@ -73,7 +95,7 @@ const ImprovementDetails = ({ improvement }) => {
 
           <p
             className="list__action list__action--red"
-            onClick={() => deleteImprovement(improvement._id)}
+            onClick={() => removeImprovement(improvement._id)}
           >
             Delete
           </p>

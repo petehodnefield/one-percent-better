@@ -20,7 +20,7 @@ const ListView = ({ setView }) => {
       return;
     }
     setImprovements(data.improvements);
-  }, data);
+  }, [data]);
 
   if (loading) return <div>Loading...</div>;
 
