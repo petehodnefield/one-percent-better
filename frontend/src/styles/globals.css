@@ -7,11 +7,14 @@
   --dark: #2c2c2c;
 }
 
-* {
-  box-sizing: border-box !important;
-}
 html {
+  box-sizing: border-box !important;
   font-size: 100%;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 body {
   margin: 0;
@@ -19,7 +22,8 @@ body {
   color: var(--dark);
 }
 main {
-  height: 100vh;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 h1,
 h2,
@@ -185,27 +189,26 @@ a {
 }
 
 /* Homepage styling */
-.bg-img {
-  position: absolute;
-  height: 100%;
-  top: 0;
-  width: 100%;
-  z-index: -1;
-  filter: brightness(70%);
-}
+
 .home {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 1.5rem;
-  padding-top: 3rem;
+  min-height: 100vh;
+  height: 100%;
+  padding: 3rem 1.5rem 3rem;
+  background: linear-gradient(rgba(69, 68, 68, 0.5), rgba(63, 62, 62, 0.5)),
+    url("../../public/assets/images/mountains.png");
+  background-size: cover;
 }
 
 .home__title-wrapper {
   width: 100%;
-  padding-left: 3rem;
+  display: flex;
+  justify-content: center;
 }
+
 .home__title-content {
   width: fit-content;
   padding: 1rem 2rem;
@@ -226,7 +229,6 @@ a {
   margin-bottom: 1.75rem;
 }
 .home-content {
-  max-width: 800px;
   width: 100%;
   background-color: var(--glass);
   display: flex;
@@ -236,6 +238,21 @@ a {
   padding: 2rem 0 0;
   position: relative;
 }
+@media screen and (min-width: 768px) {
+  .home-content {
+    max-width: 800px;
+    width: 48rem;
+  }
+}
+.home-content-padding {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.5rem 0;
+  position: relative;
+}
 .home-content__text-wrapper {
   display: flex;
   flex-direction: column;
@@ -243,10 +260,15 @@ a {
   justify-content: center;
 }
 .home-data {
-  width: 544px;
-  height: 276px;
+  width: 100%;
+  height: 16rem;
   background-color: var(--white);
   margin-bottom: 2rem;
+}
+@media screen and (min-width: 500px) {
+  .home-data {
+    width: 32rem;
+  }
 }
 .home-data--list {
   overflow-y: scroll;
@@ -262,16 +284,25 @@ a {
 }
 .improvement-form__content {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-around;
   width: 100%;
   max-width: 544px;
+  gap: 1.5rem;
+}
+@media screen and (min-width: 768px) {
+  .improvement-form__content {
+    flex-direction: row;
+  }
 }
 .improvement-form__text-wrapper {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 .improvement-form__text-wrapper--left {
-  align-items: flex-start;
+  align-items: center;
 }
 .improvement-form__text-wrapper--centered {
   align-items: center;

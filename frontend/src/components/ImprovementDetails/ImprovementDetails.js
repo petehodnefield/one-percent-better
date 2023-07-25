@@ -47,22 +47,7 @@ const ImprovementDetails = ({ improvement }) => {
 
   if (loading || updateLoading) return <Loading />;
   if (error || updateError) return <Error />;
-  // const updateImprovementDescription = async (improvementID, data) => {
-  //   console.log(data);
-  //   const response = await fetch(
-  //     `http://localhost:3001/improvement/improvement?id=${improvementID}`,
-  //     {
-  //       method: "PUT",
-  //       mode: "cors",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(data),
-  //     }
-  //   );
-  //   const jsonData = await response.json();
-  //   window.location.reload();
-  // };
+
   return (
     <div className="list__details-wrapper">
       {/* Date */}

@@ -27,11 +27,6 @@ const ListView = ({ setView }) => {
   return (
     <main className="home">
       {/* Background image */}
-      <Image
-        className="cover bg-img"
-        src={mountainsImage}
-        alt="A background image of colorful mountains representing growth"
-      />
 
       {/* Title */}
       <div className="home__title-wrapper">

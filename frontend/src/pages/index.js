@@ -99,7 +99,6 @@ export default function Home() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log("Hello world");
     addNewImprovement();
     window.location.reload();
   };
@@ -107,17 +106,8 @@ export default function Home() {
 
   if (improvements.length < 0 || loading) return <div>Loading...</div>;
 
-  console.log("data", data);
-
   return (
-    <main className="home">
-      {/* Background image */}
-      <Image
-        className="cover bg-img"
-        src={mountainsImage}
-        alt="A background image of colorful mountains representing growth"
-      />
-
+    <div className="home">
       {/* Title */}
       <div className="home__title-wrapper">
         <div className="home__title-content">
@@ -130,43 +120,44 @@ export default function Home() {
       </div>
 
       <div className="home-content rounded-lg">
-        {/* Link to stats view */}
-        <Link href="/list-view" className="btn--view">
-          List view
-        </Link>
-        {/* Text wrapper */}
-        <div className="home-content__text-wrapper">
-          <h2 className="home-content__title">My focus:</h2>
-          <p className="home-content__goal">
-            Increase my{" "}
-            <span className="bold text--primary">web developer</span> skills by
-            1% every day.
-          </p>{" "}
-        </div>
-
-        {/* Graph with data */}
-        <div className="home-data rounded">
-          {improvements ? (
-            <Line
-              datasetIdKey="id"
-              data={{
-                labels: [],
-                datasets: [
-                  {
-                    id: 1,
-                    label: "Web development skills",
-                    data: improvements,
-                    parsing: {
-                      xAxisKey: "date",
-                      yAxisKey: "improvement",
+        <div className="home-content-padding">
+          {/* Link to stats view */}
+          <Link href="/list-view" className="btn--view">
+            List view
+          </Link>
+          {/* Text wrapper */}
+          <div className="home-content__text-wrapper">
+            <h2 className="home-content__title">My focus:</h2>
+            <p className="home-content__goal">
+              Increase my{" "}
+              <span className="bold text--primary">web developer</span> skills
+              by 1% every day.
+            </p>{" "}
+          </div>
+          {/* Graph with data */}
+          <div className="home-data rounded">
+            {improvements ? (
+              <Line
+                datasetIdKey="id"
+                data={{
+                  labels: [],
+                  datasets: [
+                    {
+                      id: 1,
+                      label: "Web development skills",
+                      data: improvements,
+                      parsing: {
+                        xAxisKey: "date",
+                        yAxisKey: "improvement",
+                      },
                     },
-                  },
-                ],
-              }}
-            />
-          ) : (
-            ""
-          )}
+                  ],
+                }}
+              />
+            ) : (
+              ""
+            )}
+          </div>
         </div>
 
         {/* Form where you input what you worked on that day */}
@@ -207,6 +198,6 @@ export default function Home() {
           </div>
         </form>
       </div>
-    </main>
+    </div>
   );
 }
