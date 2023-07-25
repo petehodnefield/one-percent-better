@@ -41,7 +41,6 @@ export default function Home() {
   const [completedImprovement, setCompletedImprovement] = useState();
 
   const [view, setView] = useState("graph");
-  console.log("view", view);
 
   // If there's a date matching the current date, make the button disabled
 
