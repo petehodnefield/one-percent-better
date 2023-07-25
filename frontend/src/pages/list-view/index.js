@@ -40,7 +40,7 @@ const ListView = ({ setView }) => {
       </div>
 
       <div className="home-content rounded-lg">
-        <Link href="/" className="btn--view">
+        <Link href="/" className="btn--view list-view">
           Graph view
         </Link>
         {/* Text wrapper */}
@@ -53,7 +53,7 @@ const ListView = ({ setView }) => {
           </p>{" "}
         </div>
         {/* Container with improvement data */}
-        <div className="home-data  home-data--list rounded">
+        <div className="  home-data--list rounded">
           <div className="list__title-wrapper">
             <h3 className="list__title list__column--1">Date</h3>
             <h3 className="list__title list__column--2">Description</h3>
@@ -71,6 +71,9 @@ const ListView = ({ setView }) => {
                 ))
             : ""}
         </div>
+        <Link href="/" className=" list-view--mobile">
+          Graph view
+        </Link>
       </div>
     </main>
   );

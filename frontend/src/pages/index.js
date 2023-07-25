@@ -120,11 +120,11 @@ export default function Home() {
       </div>
 
       <div className="home-content rounded-lg">
+        {/* Link to stats view */}
+        <Link href="/list-view" className="btn--view list-view">
+          List view
+        </Link>
         <div className="home-content-padding">
-          {/* Link to stats view */}
-          <Link href="/list-view" className="btn--view">
-            List view
-          </Link>
           {/* Text wrapper */}
           <div className="home-content__text-wrapper">
             <h2 className="home-content__title">My focus:</h2>
@@ -159,7 +159,9 @@ export default function Home() {
             )}
           </div>
         </div>
-
+        <Link href="/list-view" className=" list-view--mobile">
+          List view
+        </Link>
         {/* Form where you input what you worked on that day */}
         <form onSubmit={handleFormSubmit} id="improvementForm" className="form">
           <div className="improvement-form__content">
