@@ -1,6 +1,8 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { useQuery } from "@apollo/client";
+import { IMPROVEMENTS } from "../../utils/queries";
 // Styles import
 import mountainsImage from "../../../public/assets/images/mountains.png";
 import ImprovementDetails from "../../components/ImprovementDetails/ImprovementDetails";
@@ -10,6 +12,17 @@ import Link from "next/link";
 const ListView = ({ setView }) => {
   // Fetch our API for all improvements
   const [improvements, setImprovements] = useState();
+
+  const { loading, data, error } = useQuery(IMPROVEMENTS);
+
+  useEffect(() => {
+    if (data === undefined || data.improvements === null) {
+      return;
+    }
+    setImprovements(data.improvements);
+  }, data);
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <main className="home">
