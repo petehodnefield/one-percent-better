@@ -6,10 +6,10 @@ import mountainsImage from "../../public/assets/images/mountains.png";
 
 // Chart import
 import Link from "next/link";
-import GraphView from "./components/GraphView";
+import GraphView from "../components/GraphView/GraphView";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
-import ListView from "./list-view/page";
+import ListView from "./list-view/index";
 
 export default function Home() {
   // Date formats
@@ -43,75 +43,7 @@ export default function Home() {
   const [view, setView] = useState("graph");
   console.log("view", view);
 
-  async function addNewImprovement(url, user, data) {
-    console.log(JSON.stringify(data));
-    const response = await fetch(`${url}${user}`, {
-      method: "POST",
-      mode: "cors",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Credentials": true,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const jsonData = await response.json();
-    setCompletedImprovement(true);
-    console.log(jsonData);
-  }
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    console.log("Hello world");
-    addNewImprovement(
-      `http://localhost:3001/improvement/improvement?id=`,
-      // Change this to dynamic userId
-      "64be8452534548ff78bea27e",
-      newImprovement
-    );
-    window.location.reload();
-  };
-
   // If there's a date matching the current date, make the button disabled
-
-  const url = "https://one-percent-better-api.onrender.com/user";
-
-  async function fetchAPI() {
-    const response = await fetch("http://localhost:3001/user", {
-      mode: "cors",
-      method: "GET",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Credentials": true,
-    });
-    const jsonData = await response.json();
-    console.log("jsonData", jsonData);
-    const individualDataArrays = await jsonData[0].improvements.map(
-      (data, index, arr) => {
-        if (arr.length - 1 === index) {
-          if (data.date === todaysDate) {
-            setCompletedImprovement(true);
-          }
-          const newSkillPercentage = data.skillPercentage * 1.01;
-          setNewImprovement({
-            ...newImprovement,
-            skillPercentage: newSkillPercentage,
-            date: todaysDate,
-          });
-        }
-        setImprovements((oldImprovments) => [
-          ...oldImprovments,
-          {
-            date: data.date,
-            improvement: data.skillPercentage,
-          },
-        ]);
-      }
-    );
-  }
-
-  useEffect(() => {
-    fetchAPI();
-  }, []);
 
   if (improvements.length < 0) return <div>Loading...</div>;
 
@@ -176,7 +108,7 @@ export default function Home() {
         </div>
 
         {/* Form where you input what you worked on that day */}
-        <form onSubmit={handleFormSubmit} id="improvementForm" className="form">
+        <form id="improvementForm" className="form">
           <div className="improvement-form__content">
             <div className="improvement-form__text-wrapper improvement-form__text-wrapper--left">
               <label
