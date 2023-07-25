@@ -1,6 +1,9 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { useQuery, useMutation } from "@apollo/client";
+import { IMPROVEMENTS } from "../utils/queries";
+import { ADD_IMPROVEMENT } from "../utils/mutations";
 // Styles import
 import mountainsImage from "../../public/assets/images/mountains.png";
 
@@ -35,6 +38,7 @@ export default function Home() {
 
   // State handling our previous improvements data
   const [improvements, setImprovements] = useState([]);
+  console.log("improvements", improvements);
   // State handling our form data
   const [newImprovement, setNewImprovement] = useState({});
 
@@ -42,9 +46,68 @@ export default function Home() {
 
   const [view, setView] = useState("graph");
 
+  const { loading, data, error } = useQuery(IMPROVEMENTS);
+  const [
+    addImprovement,
+    {
+      loading: newImprovementLoading,
+      data: newImprovementData,
+      error: newImprovementError,
+    },
+  ] = useMutation(ADD_IMPROVEMENT, {
+    variables: {
+      date: todaysDate,
+      skillPercentage: newImprovement.skillPercentage,
+      description: newImprovement.description,
+      userId: "64be987687d5e0f90bcff11a",
+    },
+  });
+
+  useEffect(() => {
+    if (data === undefined || data.improvements === null) {
+      return;
+    }
+    const improvements = data.improvements.map((data, index, arr) => {
+      if (arr.length - 1 === index) {
+        if (data.date === todaysDate) {
+          setCompletedImprovement(true);
+        }
+        const newSkillPercentage = data.skillPercentage * 1.01;
+        setNewImprovement({
+          ...newImprovement,
+          skillPercentage: newSkillPercentage,
+          date: todaysDate,
+        });
+      }
+      setImprovements((oldImprovments) => [
+        ...oldImprovments,
+        {
+          date: data.date,
+          improvement: data.skillPercentage,
+        },
+      ]);
+    });
+  }, [data]);
+  async function addNewImprovement() {
+    setCompletedImprovement(true);
+    try {
+      await addImprovement();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    console.log("Hello world");
+    addNewImprovement();
+    window.location.reload();
+  };
   // If there's a date matching the current date, make the button disabled
 
-  if (improvements.length < 0) return <div>Loading...</div>;
+  if (improvements.length < 0 || loading) return <div>Loading...</div>;
+
+  console.log("data", data);
 
   return (
     <main className="home">
@@ -107,7 +170,7 @@ export default function Home() {
         </div>
 
         {/* Form where you input what you worked on that day */}
-        <form id="improvementForm" className="form">
+        <form onSubmit={handleFormSubmit} id="improvementForm" className="form">
           <div className="improvement-form__content">
             <div className="improvement-form__text-wrapper improvement-form__text-wrapper--left">
               <label
