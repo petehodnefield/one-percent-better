@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { IMPROVEMENTS } from "../../utils/queries";
+import { IMPROVEMENTS, ME } from "../../utils/queries";
 import { ADD_IMPROVEMENT } from "../../utils/mutations";
 import Link from "next/link";
 import { Line } from "react-chartjs-2";
@@ -29,15 +29,17 @@ const HomeContent = () => {
 
   // State handling our previous improvements data
   const [improvements, setImprovements] = useState([]);
-  console.log("improvements", improvements);
   // State handling our form data
   const [newImprovement, setNewImprovement] = useState({});
 
   const [completedImprovement, setCompletedImprovement] = useState();
 
   const [view, setView] = useState("graph");
+  const [userID, setUserId] = useState("");
 
   const { loading, data, error } = useQuery(IMPROVEMENTS);
+
+  const { loading: meLoading, data: meData, error: meError } = useQuery(ME);
   const [
     addImprovement,
     {
@@ -50,35 +52,42 @@ const HomeContent = () => {
       date: todaysDate,
       skillPercentage: newImprovement.skillPercentage,
       description: newImprovement.description,
-      userId: "64be987687d5e0f90bcff11a",
+      userId: userID,
     },
   });
 
   useEffect(() => {
-    if (data === undefined || data.improvements === null) {
+    if (
+      meData === undefined ||
+      meData.me === null ||
+      meData.me.improvements === null ||
+      meData.me.improvements === undefined
+    ) {
       return;
-    }
-    const improvements = data.improvements.map((data, index, arr) => {
-      if (arr.length - 1 === index) {
-        if (data.date === todaysDate) {
-          setCompletedImprovement(true);
+    } else {
+      setUserId(meData.me._id);
+      const improvements = meData.me.improvements.map((data, index, arr) => {
+        if (arr.length - 1 === index) {
+          if (data.date === todaysDate) {
+            setCompletedImprovement(true);
+          }
+          const newSkillPercentage = data.skillPercentage * 1.01;
+          setNewImprovement({
+            ...newImprovement,
+            skillPercentage: newSkillPercentage,
+            date: todaysDate,
+          });
         }
-        const newSkillPercentage = data.skillPercentage * 1.01;
-        setNewImprovement({
-          ...newImprovement,
-          skillPercentage: newSkillPercentage,
-          date: todaysDate,
-        });
-      }
-      setImprovements((oldImprovments) => [
-        ...oldImprovments,
-        {
-          date: data.date,
-          improvement: data.skillPercentage,
-        },
-      ]);
-    });
-  }, [data]);
+        setImprovements((oldImprovements) => [
+          ...oldImprovements,
+          {
+            date: data.date,
+            improvement: data.skillPercentage,
+          },
+        ]);
+      });
+    }
+  }, [meData]);
   async function addNewImprovement() {
     setCompletedImprovement(true);
     try {

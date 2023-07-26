@@ -5,7 +5,6 @@ import Loading from "../Loading/Loading";
 import Error from "../Error/Error";
 const ImprovementDetails = ({ improvement }) => {
   const [newDescription, setNewDescription] = useState("");
-  console.log(newDescription);
   const [inputDisabled, setInputDisabled] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
 

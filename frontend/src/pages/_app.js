@@ -15,7 +15,6 @@ export const LoginContext = createContext();
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState);
   const [loggedIn, setLoggedIn] = useState();
-  console.log("loggedIn", loggedIn);
   useEffect(() => {
     setLoggedIn(Auth.loggedIn());
   }, []);

@@ -26,3 +26,19 @@ export const SINGLE_USER = gql`
     }
   }
 `;
+
+export const ME = gql`
+  query Query {
+    me {
+      _id
+      username
+      password
+      improvements {
+        _id
+        date
+        skillPercentage
+        description
+      }
+    }
+  }
+`;

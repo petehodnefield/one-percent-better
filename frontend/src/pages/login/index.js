@@ -7,7 +7,6 @@ import Loading from "../../components/Loading/Loading";
 import Error from "../../components/Error/Error";
 const Login = () => {
   const [userInfo, setUserInfo] = useState({});
-  console.log("userinfo", userInfo);
   const [login, { loading, data, error }] = useMutation(LOGIN);
   const handleFormSubmit = async (e) => {
     e.preventDefault();
