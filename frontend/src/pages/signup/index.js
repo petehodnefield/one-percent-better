@@ -1,37 +1,32 @@
 import React, { useState } from "react";
-import Link from "next/link";
-import Auth from "../../utils/Auth";
 import { useMutation } from "@apollo/client";
-import { LOGIN } from "../../utils/mutations";
-import Loading from "../../components/Loading/Loading";
-import Error from "../../components/Error/Error";
-const Login = () => {
+import { ADD_USER } from "../../utils/mutations";
+import Auth from "../../utils/Auth";
+
+const index = () => {
   const [userInfo, setUserInfo] = useState({});
-  console.log("userinfo", userInfo);
-  const [login, { loading, data, error }] = useMutation(LOGIN);
+  const [addUser, { loading, data, error }] = useMutation(ADD_USER);
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await login({
+      const { data } = await addUser({
         variables: { username: userInfo.username, password: userInfo.password },
       });
-      Auth.login(data.login.token);
+      Auth.login(data.addUser.token);
     } catch (e) {
       console.log(e);
     }
   };
-
-  if (loading) return <Loading />;
-  if (error) return <Error />;
   return (
-    <div className="">
+    <div className="home">
       <form
         onSubmit={handleFormSubmit}
-        id="loginForm"
+        id="signupForm"
         className="form form--column"
       >
         {" "}
-        <h2 className="form__title">Login</h2>
+        <h2 className="form__title">Signup</h2>
         <div className="form__input-label-wrapper form__input-label-wrapper--mgsm">
           <label htmlFor="username" className="form__label">
             Username
@@ -61,11 +56,11 @@ const Login = () => {
           />
         </div>
         <button type="submit" className="btn btn--lg btn--primary rounded">
-          Submit
+          Create Account
         </button>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default index;

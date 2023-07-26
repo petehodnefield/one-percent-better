@@ -10,3 +10,19 @@ export const IMPROVEMENTS = gql`
     }
   }
 `;
+
+export const SINGLE_USER = gql`
+  query Query($userId: ID!) {
+    user(id: $userId) {
+      _id
+      username
+      password
+      improvements {
+        _id
+        date
+        skillPercentage
+        description
+      }
+    }
+  }
+`;

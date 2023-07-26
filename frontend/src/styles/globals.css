@@ -73,6 +73,9 @@ a {
 }
 
 /* Buttons Style */
+.logout {
+  margin-top: 2rem;
+}
 .btn {
   border: none;
   cursor: pointer;
@@ -128,10 +131,12 @@ a {
 .form--column {
   flex-direction: column;
 }
-#loginForm {
+#loginForm,
+#signupForm {
   background-color: var(--white);
   padding: 2rem;
   border-radius: 0.5rem;
+  margin-top: 2rem;
 }
 .form__title {
   font-size: 2rem;

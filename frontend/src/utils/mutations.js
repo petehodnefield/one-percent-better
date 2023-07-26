@@ -53,6 +53,16 @@ export const DELETE_IMPROVEMENT = gql`
   }
 `;
 
+export const ADD_USER = gql`
+  mutation Mutation($username: String!, $password: String!) {
+    addUser(username: $username, password: $password) {
+      _id
+      username
+      password
+    }
+  }
+`;
+
 export const LOGIN = gql`
   mutation Mutation($username: String!, $password: String!) {
     login(username: $username, password: $password) {
