@@ -4,11 +4,11 @@ import Auth from "../../utils/Auth";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../../utils/mutations";
 import Loading from "../../components/Loading/Loading";
-import Error from "../../components/Error/Error";
 import Banner from "../../components/Banner/Banner";
 const Login = () => {
   const [userInfo, setUserInfo] = useState({});
   const [login, { loading, data, error }] = useMutation(LOGIN);
+  const [errorMessage, setErrorMessage] = useState("");
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -17,18 +17,20 @@ const Login = () => {
       });
       Auth.login(data.login.token);
     } catch (e) {
+      setErrorMessage(
+        "Username and/or password is incorrect. Please try again."
+      );
       console.log(e);
     }
   };
 
   if (loading) return <Loading />;
-  if (error) return <Error />;
   return (
     <div className="home">
       {" "}
       <Banner />
       <form
-        onSubmit={handleFormSubmit}
+        onSubmit={(e) => handleFormSubmit(e)}
         id="loginForm"
         className="form form--column"
       >
@@ -63,6 +65,7 @@ const Login = () => {
             }
           />
         </div>
+        {errorMessage ? <p className="error-message">{errorMessage}</p> : ""}
         <Link
           href={"/signup"}
           className="btn btn--full-width btn--link btn--lg btn--outline rounded"

@@ -4,27 +4,31 @@ import Auth from "../../utils/Auth";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../../utils/mutations";
 import Loading from "../Loading/Loading";
-import Error from "../Error/Error";
 const LoginForm = () => {
   const [userInfo, setUserInfo] = useState({});
   const [login, { loading, data, error }] = useMutation(LOGIN);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await login({
         variables: { username: userInfo.username, password: userInfo.password },
       });
+      setErrorMessage("");
       Auth.login(data.login.token);
     } catch (e) {
+      setErrorMessage(
+        "Username and/or password is incorrect. Please try again."
+      );
       console.log(e);
     }
   };
 
   if (loading) return <Loading />;
-  if (error) return <Error />;
   return (
     <form
-      onSubmit={handleFormSubmit}
+      onSubmit={(e) => handleFormSubmit(e)}
       id="loginForm"
       className="form form--column"
     >
@@ -35,6 +39,7 @@ const LoginForm = () => {
           Username
         </label>
         <input
+          required
           className="form-input form__input--sm rounded"
           type="text"
           name="username"
@@ -44,11 +49,18 @@ const LoginForm = () => {
           }
         />
       </div>
-      <div className="form__input-label-wrapper form__input-label-wrapper--mglg">
+      <div
+        className={`form__input-label-wrapper ${
+          errorMessage
+            ? "form__input-label-wrapper--mgsm"
+            : "form__input-label-wrapper--mglg"
+        } `}
+      >
         <label htmlFor="password" className="form__label">
           Password
         </label>
         <input
+          required
           className="form-input form__input--sm rounded"
           type="password"
           name="password"
@@ -58,6 +70,7 @@ const LoginForm = () => {
           }
         />
       </div>
+      {errorMessage ? <p className="error-message">{errorMessage}</p> : ""}
       <Link
         href={"/signup"}
         className="btn btn--full-width btn--link btn--lg btn--outline rounded"

@@ -71,7 +71,13 @@ a {
   height: 100%;
   object-fit: cover;
 }
-
+/* Error message */
+.error-message {
+  width: 20rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: red;
+}
 /* Buttons Style */
 .logout {
   margin-top: 2rem;
@@ -79,6 +85,10 @@ a {
 .btn {
   border: none;
   cursor: pointer;
+}
+.btn:hover {
+  opacity: 0.9;
+  transition: 150ms ease-in-out;
 }
 .btn--link {
   display: flex;
@@ -172,10 +182,12 @@ a {
 }
 .form-input {
   padding-left: 1rem;
+  border: 2px solid var(--medium);
 }
-.form__input:focus {
+.form-input:focus {
   outline: none;
-  box-shadow: 0 0 16px var(--dark);
+  border: 2px solid var(--primary);
+  box-shadow: 0 0 1px var(--dark);
 }
 .form__input--white {
   background-color: var(--white);
