@@ -52,3 +52,22 @@ export const DELETE_IMPROVEMENT = gql`
     }
   }
 `;
+
+export const LOGIN = gql`
+  mutation Mutation($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      token
+      user {
+        _id
+        username
+        password
+        improvements {
+          _id
+          date
+          skillPercentage
+          description
+        }
+      }
+    }
+  }
+`;

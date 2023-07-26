@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import Layout from "../components/Layout/Layout";
-import { useState } from "react";
+import { useState, useEffect, createContext } from "react";
 import {
   ApolloClient,
   InMemoryCache,
@@ -8,19 +8,24 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { useApollo } from "../../lib/apollo";
+import Auth from "../utils/Auth";
+
+export const LoginContext = createContext();
 
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState);
   const [loggedIn, setLoggedIn] = useState();
-  const [navigationSelected, setNavigationSelected] = useState("");
-  //   useEffect(() => {
-  //     setLoggedIn(Auth.loggedIn());
-  //   }, []);
+  console.log("loggedIn", loggedIn);
+  useEffect(() => {
+    setLoggedIn(Auth.loggedIn());
+  }, []);
   return (
-    <ApolloProvider client={apolloClient}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </ApolloProvider>
+    <LoginContext.Provider value={[loggedIn, setLoggedIn]}>
+      <ApolloProvider client={apolloClient}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ApolloProvider>
+    </LoginContext.Provider>
   );
 }
