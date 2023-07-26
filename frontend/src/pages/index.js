@@ -31,7 +31,7 @@ export default function Home() {
           </h1>
         </div>
       </div>
-      {!loggedIn ? <Login /> : <HomeContent />}
+      {loggedIn ? <HomeContent /> : <Login />}
 
       {loggedIn ? (
         <button

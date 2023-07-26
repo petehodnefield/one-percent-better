@@ -5,6 +5,7 @@ import { ADD_IMPROVEMENT } from "../../utils/mutations";
 import Link from "next/link";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
+import Loading from "../Loading/Loading";
 const HomeContent = () => {
   // Date formats
   const monthNames = [
@@ -31,12 +32,10 @@ const HomeContent = () => {
   const [improvements, setImprovements] = useState([]);
   // State handling our form data
   const [newImprovement, setNewImprovement] = useState({});
-
+  console.log(newImprovement);
   const [completedImprovement, setCompletedImprovement] = useState();
 
-  const [view, setView] = useState("graph");
   const [userID, setUserId] = useState("");
-
   const { loading, data, error } = useQuery(IMPROVEMENTS);
 
   const { loading: meLoading, data: meData, error: meError } = useQuery(ME);
@@ -57,6 +56,7 @@ const HomeContent = () => {
   });
 
   useEffect(() => {
+    // Checks to see if meData exists yet. If not, return
     if (
       meData === undefined ||
       meData.me === null ||
@@ -64,9 +64,21 @@ const HomeContent = () => {
       meData.me.improvements === undefined
     ) {
       return;
-    } else {
+    }
+    // This is the code that runs if the user has 0 improvements
+    else if (meData.me.improvements.length === 0) {
+      setUserId(meData.me._id);
+      setNewImprovement({
+        ...newImprovement,
+        skillPercentage: 1,
+        date: todaysDate,
+      });
+    }
+    //This code run if the user already has previous improvements
+    else {
       setUserId(meData.me._id);
       const improvements = meData.me.improvements.map((data, index, arr) => {
+        console.log("array", arr);
         if (arr.length - 1 === index) {
           if (data.date === todaysDate) {
             setCompletedImprovement(true);
@@ -88,6 +100,7 @@ const HomeContent = () => {
       });
     }
   }, [meData]);
+
   async function addNewImprovement() {
     setCompletedImprovement(true);
     try {
@@ -102,9 +115,7 @@ const HomeContent = () => {
     addNewImprovement();
     window.location.reload();
   };
-  // If there's a date matching the current date, make the button disabled
-
-  if (improvements.length < 0 || loading) return <div>Loading...</div>;
+  if (improvements.length < 0 || loading) return <Loading />;
   return (
     <div className="home-content rounded-lg">
       {/* Link to stats view */}
