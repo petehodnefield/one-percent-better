@@ -40,7 +40,7 @@ const LoginForm = () => {
         </label>
         <input
           required
-          className="form-input form__input--sm rounded"
+          className={`form-input form__input--sm rounded`}
           type="text"
           name="username"
           id="username"

@@ -12,6 +12,11 @@ export const resolvers = {
     user: async (parent, args) => {
       return await User.findOne({ _id: args.id }).populate("improvements");
     },
+    username: async (parent, args) => {
+      return await User.findOne({ username: args.username }).populate(
+        "improvements"
+      );
+    },
     me: async (parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })

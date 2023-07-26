@@ -78,6 +78,7 @@ a {
   font-weight: 600;
   color: red;
 }
+
 /* Buttons Style */
 .logout {
   margin-top: 2rem;
@@ -157,13 +158,14 @@ a {
 #loginForm,
 #signupForm {
   background-color: var(--white);
-  padding: 2rem;
-  border-radius: 0.5rem;
+  align-items: flex-start;
+  padding: 3rem 2rem;
+  border-radius: 1rem;
   margin-top: 2rem;
 }
 .form__title {
   font-size: 2rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 .form__input-label-wrapper {
   display: flex;
@@ -203,7 +205,12 @@ a {
   width: 20rem;
   font-size: 1rem;
 }
-
+.form__input--error:focus {
+  border: 2px solid red;
+}
+.form__input--error {
+  border: 2px solid red;
+}
 .form__textarea {
   padding: 1rem;
   border: none;

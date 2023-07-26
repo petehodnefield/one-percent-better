@@ -27,6 +27,22 @@ export const SINGLE_USER = gql`
   }
 `;
 
+export const USERNAME = gql`
+  query Username($username: String!) {
+    username(username: $username) {
+      _id
+      username
+      password
+      improvements {
+        _id
+        date
+        skillPercentage
+        description
+      }
+    }
+  }
+`;
+
 export const ME = gql`
   query Query {
     me {

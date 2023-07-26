@@ -24,6 +24,7 @@ export const typeDefs = `
     type Query {
         users: [User]
         user(id: ID!): User
+        username(username: String!): User
         me: User
 
 

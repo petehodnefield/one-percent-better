@@ -1,24 +1,49 @@
-import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
+import React, { useState, useEffect } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import { USERNAME } from "../../utils/queries";
 import { ADD_USER } from "../../utils/mutations";
 import Auth from "../../utils/Auth";
 import Link from "next/link";
 import Banner from "../../components/Banner/Banner";
 const index = () => {
   const [userInfo, setUserInfo] = useState({});
+  const [usernameAvailable, setUsernameAvailable] = useState(true);
   const [addUser, { loading, data, error }] = useMutation(ADD_USER);
+  console.log("usernameAvailable", usernameAvailable);
+  const {
+    loading: usernameLoading,
+    data: usernameData,
+    error: usernameError,
+  } = useQuery(USERNAME, {
+    variables: { username: userInfo.username },
+  });
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const { data } = await addUser({
-        variables: { username: userInfo.username, password: userInfo.password },
-      });
-      Auth.login(data.addUser.token);
-    } catch (e) {
-      console.log(e);
+    if (!usernameAvailable) {
+      return;
+    } else {
+      try {
+        const { data } = await addUser({
+          variables: {
+            username: userInfo.username,
+            password: userInfo.password,
+          },
+        });
+        Auth.login(data.addUser.token);
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
+
+  useEffect(() => {
+    if (!usernameData || !usernameData.username) {
+      setUsernameAvailable(true);
+    } else {
+      setUsernameAvailable(false);
+    }
+  }, [usernameData]);
   return (
     <div className="home">
       <Banner />
@@ -29,13 +54,17 @@ const index = () => {
       >
         {" "}
         <h2 className="form__title">Signup</h2>
-        <div className="form__input-label-wrapper form__input-label-wrapper--mgsm">
+        <div
+          className={`form__input-label-wrapper form__input-label-wrapper--mgsm`}
+        >
           <label htmlFor="username" className="form__label">
             Username
           </label>
           <input
             required
-            className="form-input form__input--sm rounded"
+            className={`form-input form__input--sm rounded ${
+              !usernameAvailable ? "form__input--error" : ""
+            }`}
             type="text"
             name="username"
             id="username"
@@ -43,7 +72,12 @@ const index = () => {
               setUserInfo({ ...userInfo, username: e.target.value })
             }
           />
-        </div>
+        </div>{" "}
+        {!usernameAvailable ? (
+          <p className="error-message">Username already taken!</p>
+        ) : (
+          ""
+        )}
         <div className="form__input-label-wrapper form__input-label-wrapper--mglg">
           <label htmlFor="password" className="form__label">
             Password

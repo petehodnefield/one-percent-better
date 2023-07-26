@@ -32,7 +32,6 @@ const HomeContent = () => {
   const [improvements, setImprovements] = useState([]);
   // State handling our form data
   const [newImprovement, setNewImprovement] = useState({});
-  console.log(newImprovement);
   const [completedImprovement, setCompletedImprovement] = useState();
 
   const [userID, setUserId] = useState("");
@@ -78,7 +77,6 @@ const HomeContent = () => {
     else {
       setUserId(meData.me._id);
       const improvements = meData.me.improvements.map((data, index, arr) => {
-        console.log("array", arr);
         if (arr.length - 1 === index) {
           if (data.date === todaysDate) {
             setCompletedImprovement(true);
