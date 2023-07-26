@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { IMPROVEMENTS } from "../../utils/queries";
+import { IMPROVEMENTS, ME } from "../../utils/queries";
 // Styles import
 import mountainsImage from "../../../public/assets/images/mountains.png";
 import ImprovementDetails from "../../components/ImprovementDetails/ImprovementDetails";
@@ -13,13 +13,14 @@ const ListView = ({ setView }) => {
   // Fetch our API for all improvements
   const [improvements, setImprovements] = useState();
 
-  const { loading, data, error } = useQuery(IMPROVEMENTS);
-
+  const { loading, data, error } = useQuery(ME);
+  console.log(data);
   useEffect(() => {
-    if (data === undefined || data.improvements === null) {
+    if (data === undefined || data.me === null) {
       return;
+    } else {
+      setImprovements(data.me.improvements);
     }
-    setImprovements(data.improvements);
   }, [data]);
 
   if (loading) return <div>Loading...</div>;
