@@ -56,9 +56,18 @@ export const DELETE_IMPROVEMENT = gql`
 export const ADD_USER = gql`
   mutation Mutation($username: String!, $password: String!) {
     addUser(username: $username, password: $password) {
-      _id
-      username
-      password
+      token
+      user {
+        _id
+        username
+        password
+        improvements {
+          _id
+          date
+          skillPercentage
+          description
+        }
+      }
     }
   }
 `;

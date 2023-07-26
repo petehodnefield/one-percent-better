@@ -9,8 +9,9 @@ import Link from "next/link";
 import GraphView from "../components/GraphView/GraphView";
 
 import ListView from "./list-view/index";
-import Login from "./login";
 import HomeContent from "../components/Home/HomeContent";
+import LoginForm from "../components/Login/LoginForm";
+import Banner from "../components/Banner/Banner";
 
 export default function Home() {
   // Login Context
@@ -21,17 +22,8 @@ export default function Home() {
   };
   return (
     <div className="home">
-      {/* Title */}
-      <div className="home__title-wrapper">
-        <div className="home__title-content">
-          <h1>
-            <Link className="home__title" href={"/"}>
-              1% Better
-            </Link>
-          </h1>
-        </div>
-      </div>
-      {loggedIn ? <HomeContent /> : <Login />}
+      <Banner />
+      {loggedIn ? <HomeContent /> : <LoginForm />}
 
       {loggedIn ? (
         <button

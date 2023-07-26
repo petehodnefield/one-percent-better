@@ -31,7 +31,7 @@ export const typeDefs = `
         improvement(id: ID!): Improvement
     }
     type Mutation {
-        addUser(username: String!, password: String!): User
+        addUser(username: String!, password: String!): Auth
         addImprovement(date: String!, skillPercentage: Float!, description: String!, userId: ID!): Improvement
 
         updateUser(id: ID!, username: String, password: String): User

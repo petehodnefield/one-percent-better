@@ -3,6 +3,7 @@ import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../../utils/mutations";
 import Auth from "../../utils/Auth";
 import Link from "next/link";
+import Banner from "../../components/Banner/Banner";
 const index = () => {
   const [userInfo, setUserInfo] = useState({});
   const [addUser, { loading, data, error }] = useMutation(ADD_USER);
@@ -20,6 +21,7 @@ const index = () => {
   };
   return (
     <div className="home">
+      <Banner />
       <form
         onSubmit={handleFormSubmit}
         id="signupForm"
@@ -32,6 +34,7 @@ const index = () => {
             Username
           </label>
           <input
+            required
             className="form-input form__input--sm rounded"
             type="text"
             name="username"
@@ -46,6 +49,7 @@ const index = () => {
             Password
           </label>
           <input
+            required
             className="form-input form__input--sm rounded"
             type="password"
             name="password"

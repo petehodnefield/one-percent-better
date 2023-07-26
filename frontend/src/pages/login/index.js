@@ -5,6 +5,7 @@ import { useMutation } from "@apollo/client";
 import { LOGIN } from "../../utils/mutations";
 import Loading from "../../components/Loading/Loading";
 import Error from "../../components/Error/Error";
+import Banner from "../../components/Banner/Banner";
 const Login = () => {
   const [userInfo, setUserInfo] = useState({});
   const [login, { loading, data, error }] = useMutation(LOGIN);
@@ -24,18 +25,20 @@ const Login = () => {
   if (error) return <Error />;
   return (
     <div className="home">
+      {" "}
+      <Banner />
       <form
         onSubmit={handleFormSubmit}
         id="loginForm"
         className="form form--column"
       >
-        {" "}
         <h2 className="form__title">Login</h2>
         <div className="form__input-label-wrapper form__input-label-wrapper--mgsm">
           <label htmlFor="username" className="form__label">
             Username
           </label>
           <input
+            required
             className="form-input form__input--sm rounded"
             type="text"
             name="username"
@@ -50,6 +53,7 @@ const Login = () => {
             Password
           </label>
           <input
+            required
             className="form-input form__input--sm rounded"
             type="password"
             name="password"
