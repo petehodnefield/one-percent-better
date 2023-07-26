@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../../utils/mutations";
 import Auth from "../../utils/Auth";
-
+import Link from "next/link";
 const index = () => {
   const [userInfo, setUserInfo] = useState({});
   const [addUser, { loading, data, error }] = useMutation(ADD_USER);
@@ -55,9 +55,18 @@ const index = () => {
             }
           />
         </div>
-        <button type="submit" className="btn btn--lg btn--primary rounded">
+        <button
+          type="submit"
+          className="btn btn--lg btn--full-width  btn--primary rounded "
+        >
           Create Account
         </button>
+        <p className="form__redirect">
+          Already have an account?{" "}
+          <Link className="bold" href={"/login"}>
+            Login
+          </Link>
+        </p>
       </form>
     </div>
   );

@@ -80,6 +80,12 @@ a {
   border: none;
   cursor: pointer;
 }
+.btn--link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
 .btn--primary {
   background-color: var(--primary);
   color: var(--white);
@@ -103,6 +109,10 @@ a {
   font-size: 1rem;
   font-weight: 500;
 }
+.btn--full-width {
+  width: 100%;
+}
+
 .btn--view {
   position: absolute;
   right: 1.5rem;
@@ -127,6 +137,9 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.form__redirect {
+  margin-top: 1.5rem;
 }
 .form--column {
   flex-direction: column;

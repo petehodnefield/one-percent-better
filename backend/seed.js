@@ -174,7 +174,6 @@ export default async function seedDB() {
       description: "Today, I learned this new thing...",
     }
   );
-  console.log(improvements);
 
   const updateUserTest = await User.findOneAndUpdate(
     {

@@ -23,7 +23,7 @@ const Login = () => {
   if (loading) return <Loading />;
   if (error) return <Error />;
   return (
-    <div className="">
+    <div className="home">
       <form
         onSubmit={handleFormSubmit}
         id="loginForm"
@@ -59,8 +59,17 @@ const Login = () => {
             }
           />
         </div>
-        <button type="submit" className="btn btn--lg btn--primary rounded">
-          Submit
+        <Link
+          href={"/signup"}
+          className="btn btn--full-width btn--link btn--lg btn--outline rounded"
+        >
+          Signup
+        </Link>
+        <button
+          type="submit"
+          className="btn btn--full-width  btn--lg btn--primary rounded"
+        >
+          Login
         </button>
       </form>
     </div>
