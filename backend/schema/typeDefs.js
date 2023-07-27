@@ -6,7 +6,7 @@ export const typeDefs = `
         _id: ID
         username: String
         password: String
-        improvements: [Improvement]
+        areas: [Area]
     }
 
     type Improvement {
@@ -14,6 +14,12 @@ export const typeDefs = `
         date: String
         skillPercentage: Float
         description: String
+    }
+
+    type Area {
+        _id: ID
+        area: String
+        improvements: [Improvement]
     }
 
     type Auth {

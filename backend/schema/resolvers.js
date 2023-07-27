@@ -1,16 +1,17 @@
 import { GraphQLError } from "graphql";
 import User from "../models/User.js";
 import Improvement from "../models/Improvement.js";
+import Area from "../models/Area.js";
 import auth from "../utils/auth.js";
 // Resolvers define how to fetch the types defined in your schema.
 export const resolvers = {
   Query: {
     // User Queries
     users: async () => {
-      return await User.find().populate("improvements");
+      return await User.find().populate("areas");
     },
     user: async (parent, args) => {
-      return await User.findOne({ _id: args.id }).populate("improvements");
+      return await User.findOne({ _id: args.id }).populate("areas");
     },
     username: async (parent, args) => {
       return await User.findOne({ username: args.username }).populate(
