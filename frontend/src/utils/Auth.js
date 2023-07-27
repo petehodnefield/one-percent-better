@@ -51,6 +51,15 @@ class AuthService {
     }
   }
 
+  // Initial Login before they've added any areas
+  loginFirstTime(idToken) {
+    if (typeof window !== "undefined") {
+      // Saves user token to localStorage
+      localStorage.setItem("id_token", idToken);
+
+      window.location.assign("/welcome");
+    }
+  }
   // clear token from localStorage and force logout with reload
   logout() {
     // Clear user token and profile data from localStorage

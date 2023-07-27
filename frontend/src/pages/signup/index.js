@@ -30,7 +30,7 @@ const index = () => {
             password: userInfo.password,
           },
         });
-        Auth.login(data.addUser.token);
+        Auth.loginFirstTime(data.addUser.token);
       } catch (e) {
         console.log(e);
       }
