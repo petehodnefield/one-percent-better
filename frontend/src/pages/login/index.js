@@ -26,9 +26,7 @@ const Login = () => {
 
   if (loading) return <Loading />;
   return (
-    <div className="home">
-      {" "}
-      <Banner />
+    <div>
       <form
         onSubmit={(e) => handleFormSubmit(e)}
         id="loginForm"
