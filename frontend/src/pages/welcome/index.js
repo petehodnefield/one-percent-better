@@ -1,10 +1,39 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect, useContext } from "react";
+import { LoginContext } from "../_app";
+import { useQuery, useMutation } from "@apollo/client";
+import { ADD_AREA } from "../../utils/mutations";
+import { ME } from "../../utils/queries";
+import Loading from "../../components/Loading/Loading";
 const Welcome = () => {
   const [area, setArea] = useState("");
+  const [loggedIn, setLoggedIn] = useContext(LoginContext);
+  const [userId, setUserId] = useState("");
+  console.log(`userId ${userId}`);
+  console.log(`loggedIn ${loggedIn}`);
+
+  const { loading: meLoading, data: meData, error: meError } = useQuery(ME);
+  const [addArea, { loading, data, error }] = useMutation(ADD_AREA);
+  useEffect(() => {
+    if (meData === undefined || meData.me === null) {
+      return;
+    } else {
+      console.log(meData);
+      setUserId(meData.me._id);
+    }
+  }, [meData]);
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      await addArea({
+        variables: { area: area, userId: userId },
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
+  if (meLoading) return <Loading />;
+
   return (
     <div className="home">
       <div className="welcome">

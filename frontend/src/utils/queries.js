@@ -52,12 +52,6 @@ export const ME = gql`
       areas {
         _id
         area
-        improvements {
-          _id
-          date
-          skillPercentage
-          description
-        }
       }
     }
   }
