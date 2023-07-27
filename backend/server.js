@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 dotenv.config();
+import mongoose from "mongoose";
 
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
@@ -11,7 +11,7 @@ import seedDB from "./seed.js";
 import auth from "./utils/auth.js";
 
 const db = await mongoose.connect(
-  "mongodb://127.0.0.1:27017/one-percent-better"
+  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/one-percent-better"
 );
 const seed = await seedDB();
 console.info("connected to db!");
