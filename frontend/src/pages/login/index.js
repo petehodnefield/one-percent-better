@@ -41,7 +41,7 @@ const Login = () => {
           </label>
           <input
             required
-            className="form-input form__input--sm rounded"
+            className="form-input form__input--lg rounded"
             type="text"
             name="username"
             id="username"
@@ -50,13 +50,13 @@ const Login = () => {
             }
           />
         </div>
-        <div className="form__input-label-wrapper form__input-label-wrapper--mglg">
+        <div className="form__input-label-wrapper form__input-label-wrapper--mgxl">
           <label htmlFor="password" className="form__label">
             Password
           </label>
           <input
             required
-            className="form-input form__input--sm rounded"
+            className="form-input form__input--lg rounded"
             type="password"
             name="password"
             id="password"

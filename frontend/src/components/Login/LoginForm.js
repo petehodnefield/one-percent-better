@@ -40,7 +40,7 @@ const LoginForm = () => {
         </label>
         <input
           required
-          className={`form-input form__input--sm rounded`}
+          className={`form-input form__input--lg rounded`}
           type="text"
           name="username"
           id="username"
@@ -53,7 +53,7 @@ const LoginForm = () => {
         className={`form__input-label-wrapper ${
           errorMessage
             ? "form__input-label-wrapper--mgsm"
-            : "form__input-label-wrapper--mglg"
+            : "form__input-label-wrapper--mgxl"
         } `}
       >
         <label htmlFor="password" className="form__label">
@@ -61,7 +61,7 @@ const LoginForm = () => {
         </label>
         <input
           required
-          className="form-input form__input--sm rounded"
+          className="form-input form__input--lg rounded"
           type="password"
           name="password"
           id="password"

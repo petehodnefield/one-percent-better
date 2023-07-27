@@ -165,7 +165,7 @@ a {
 }
 .form__title {
   font-size: 2rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 .form__input-label-wrapper {
   display: flex;
@@ -176,6 +176,9 @@ a {
 }
 .form__input-label-wrapper--mglg {
   margin-bottom: 2rem;
+}
+.form__input-label-wrapper--mgxl {
+  margin-bottom: 2.5rem;
 }
 .form__label {
   font-size: 0.875rem;

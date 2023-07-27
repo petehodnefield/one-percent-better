@@ -12,6 +12,7 @@ import ListView from "./list-view/index";
 import HomeContent from "../components/Home/HomeContent";
 import LoginForm from "../components/Login/LoginForm";
 import Banner from "../components/Banner/Banner";
+import Login from "./login";
 
 export default function Home() {
   // Login Context
@@ -23,7 +24,7 @@ export default function Home() {
   return (
     <div className="home">
       <Banner />
-      {loggedIn ? <HomeContent /> : <LoginForm />}
+      {loggedIn ? <HomeContent /> : <Login />}
 
       {loggedIn ? (
         <button
