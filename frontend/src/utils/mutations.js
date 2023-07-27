@@ -99,12 +99,6 @@ export const ADD_USER = gql`
         _id
         username
         password
-        improvements {
-          _id
-          date
-          skillPercentage
-          description
-        }
       }
     }
   }

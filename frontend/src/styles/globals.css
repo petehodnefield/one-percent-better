@@ -510,3 +510,85 @@ a {
   font-weight: 600;
   color: var(--primary);
 }
+
+/* Welcome Style */
+.welcome {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--glass);
+  border-radius: 1rem;
+  padding: 3rem 3rem 2rem;
+  max-width: 40rem;
+}
+.welcome__centered {
+  text-align: center;
+}
+.welcome__title--sm {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.welcome__title--md {
+  font-size: 1.75rem;
+}
+.welcome__title--xl {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+.welcome__title--bold {
+  font-weight: 700;
+}
+.welcome__title--medium {
+  font-weight: 500;
+}
+.welcome__subtitle {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+.welcome__text {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+}
+.welcome__emphasis {
+  color: var(--primary);
+  font-weight: 700;
+}
+.welcome__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.welcome__form-title {
+  margin-bottom: 1rem;
+}
+.welcome__form-input {
+  border: 1px solid var(--medium);
+  box-shadow: 0 4px 8px rgba(44, 44, 44, 0.15);
+  padding-left: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.welcome__form-input:focus {
+  border: 1px solid var(--medium);
+  outline: 2px solid var(--primary);
+}
+.welcome__form-input::placeholder {
+  color: var(--medium);
+  font-style: italic;
+}
+.welcome__line {
+  height: 1px;
+  background-color: rgb(175, 170, 170);
+  border-radius: 100vmax;
+}
+
+.welcome__line--sm {
+  width: 120px;
+  margin-bottom: 0.5rem;
+}
+.welcome__line--lg {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}

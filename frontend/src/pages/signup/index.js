@@ -101,7 +101,7 @@ const index = () => {
         </button>
         <p className="form__redirect">
           Already have an account?{" "}
-          <Link className="bold" href={"/login"}>
+          <Link className="bold" href={"/"}>
             Login
           </Link>
         </p>

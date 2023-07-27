@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import Loading from "../Loading/Loading";
+import NoImprovements from "../NoImprovements/NoImprovements";
 const HomeContent = () => {
   // Date formats
   const monthNames = [
@@ -37,6 +38,8 @@ const HomeContent = () => {
   const [userID, setUserId] = useState("");
 
   const [selectedArea, setSelectedArea] = useState("Loading...");
+  const [noImprovements, setNoImprovements] = useState(false);
+  const [noAreas, setNoAreas] = useState(false);
 
   const { loading: meLoading, data: meData, error: meError } = useQuery(ME);
 
@@ -75,6 +78,8 @@ const HomeContent = () => {
     }
     // This is the code that runs if the user has 0 improvements
     else if (meData.me.areas.length === 0) {
+      setNoImprovements(true);
+      setNoAreas(true);
       setUserId(meData.me._id);
       setNewImprovement({
         ...newImprovement,
@@ -129,44 +134,52 @@ const HomeContent = () => {
   if (improvements.length < 0) return <Loading />;
   return (
     <div className="home-content rounded-lg">
+      {noImprovements ? <NoImprovements /> : ""}
       {/* Link to stats view */}
       <Link href="/list-view" className="btn--view list-view">
         List view
       </Link>
       <div className="home-content-padding">
-        {/* Text wrapper */}
-        <div className="home-content__text-wrapper">
-          <h2 className="home-content__title">My focus:</h2>
-          <p className="home-content__goal">
-            Increase my{" "}
-            <span className="bold text--primary">{selectedArea}</span> skills by
-            1% every day.
-          </p>{" "}
-        </div>
-        {/* Graph with data */}
-        <div className="home-data rounded">
-          {improvements ? (
-            <Line
-              datasetIdKey="id"
-              data={{
-                labels: [],
-                datasets: [
-                  {
-                    id: 1,
-                    label: "Web development skills",
-                    data: improvements,
-                    parsing: {
-                      xAxisKey: "date",
-                      yAxisKey: "improvement",
+        {noAreas ? (
+          <div>You have no areas</div>
+        ) : (
+          <div className="home-content__text-wrapper">
+            <h2 className="home-content__title">My focus:</h2>
+            <p className="home-content__goal">
+              Increase my{" "}
+              <span className="bold text--primary">{selectedArea}</span> skills
+              by 1% every day.
+            </p>{" "}
+          </div>
+        )}
+        {noImprovements ? (
+          ""
+        ) : (
+          <div className="home-data rounded">
+            {improvements ? (
+              <Line
+                datasetIdKey="id"
+                data={{
+                  labels: [],
+                  datasets: [
+                    {
+                      id: 1,
+                      label: "Web development skills",
+                      data: improvements,
+                      parsing: {
+                        xAxisKey: "date",
+                        yAxisKey: "improvement",
+                      },
                     },
-                  },
-                ],
-              }}
-            />
-          ) : (
-            ""
-          )}
-        </div>
+                  ],
+                }}
+              />
+            ) : (
+              ""
+            )}
+          </div>
+        )}
+        {/* Graph with data */}
       </div>
       <Link href="/list-view" className=" list-view--mobile">
         List view
