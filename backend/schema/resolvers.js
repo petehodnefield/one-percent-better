@@ -8,10 +8,16 @@ export const resolvers = {
   Query: {
     // User Queries
     users: async () => {
-      return await User.find().populate("areas");
+      return await User.find().populate({
+        path: "areas",
+        populate: { path: "improvements", model: "Improvement" },
+      });
     },
     user: async (parent, args) => {
-      return await User.findOne({ _id: args.id }).populate("areas");
+      return await User.findOne({ _id: args.id }).populate({
+        path: "areas",
+        populate: { path: "improvements", model: "Improvement" },
+      });
     },
     username: async (parent, args) => {
       return await User.findOne({ username: args.username }).populate(
@@ -26,6 +32,14 @@ export const resolvers = {
 
         return userData;
       }
+    },
+
+    // Area Queries
+    areas: async (parent, args) => {
+      return await Area.find().populate("improvements");
+    },
+    area: async (parent, args) => {
+      return await Area.findOne({ _id: args.id }).populate("improvements");
     },
 
     // Improvement Queries
@@ -77,11 +91,37 @@ export const resolvers = {
       return { token, user };
     },
 
+    // Area Mutations
+    addArea: async (parent, args) => {
+      const newArea = await Area.create(args);
+      const updateUser = await User.findByIdAndUpdate(
+        { _id: args.userId },
+        { $push: { areas: newArea } },
+        { new: true }
+      );
+      return newArea;
+    },
+    updateArea: async (parent, args) => {
+      const updatedArea = await Area.findOneAndUpdate(
+        { _id: args.id },
+        {
+          area: args.area,
+        }
+      );
+      return updatedArea;
+    },
+    deleteArea: async (parent, args) => {
+      const deletedArea = await Area.findOneAndDelete({
+        _id: args.id,
+      });
+      return deletedArea;
+    },
+
     // Improvement Mutations
     addImprovement: async (parent, args) => {
       const newImprovement = await Improvement.create(args);
-      const updateUser = await User.findByIdAndUpdate(
-        { _id: args.userId },
+      const updateArea = await Area.findByIdAndUpdate(
+        { _id: args.areaId },
         { $push: { improvements: newImprovement } },
         { new: true }
       );

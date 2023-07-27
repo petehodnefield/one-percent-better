@@ -33,18 +33,23 @@ export const typeDefs = `
         username(username: String!): User
         me: User
 
+        areas: [Area]
+        area(id: ID!): Area
 
         improvements: [Improvement]
         improvement(id: ID!): Improvement
     }
     type Mutation {
         addUser(username: String!, password: String!): Auth
-        addImprovement(date: String!, skillPercentage: Float!, description: String!, userId: ID!): Improvement
+        addArea(area: String!, userId: ID!): Area
+        addImprovement(date: String!, skillPercentage: Float!, description: String!, areaId: ID!): Improvement
 
         updateUser(id: ID!, username: String, password: String): User
+        updateArea(id: ID!, area: String): Area
         updateImprovement(id: ID!, date: String, skillPercentage: Float, description: String): Improvement
 
         deleteUser(id: ID!): User
+        deleteArea(id: ID!): Area
         deleteImprovement(id: ID!): Improvement
 
         login(username: String!, password: String!): Auth
