@@ -1,5 +1,43 @@
 import { gql } from "@apollo/client";
 
+export const ADD_AREA = gql`
+  mutation Mutation($area: String!, $userId: ID!) {
+    addArea(area: $area, userId: $userId) {
+      _id
+      area
+      improvements {
+        _id
+        date
+        skillPercentage
+        description
+      }
+    }
+  }
+`;
+
+export const UPDATE_AREA = gql`
+  mutation Mutation($updateAreaId: ID!, $area: String) {
+    updateArea(id: $updateAreaId, area: $area) {
+      _id
+      area
+      improvements {
+        _id
+        date
+        skillPercentage
+        description
+      }
+    }
+  }
+`;
+export const DELETE_AREA = gql`
+  mutation Mutation($deleteAreaId: ID!) {
+    deleteArea(id: $deleteAreaId) {
+      _id
+      area
+    }
+  }
+`;
+
 export const ADD_IMPROVEMENT = gql`
   mutation Mutation(
     $date: String!
@@ -80,12 +118,6 @@ export const LOGIN = gql`
         _id
         username
         password
-        improvements {
-          _id
-          date
-          skillPercentage
-          description
-        }
       }
     }
   }

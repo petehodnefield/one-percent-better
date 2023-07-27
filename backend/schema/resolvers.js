@@ -28,7 +28,10 @@ export const resolvers = {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
           .select("-__v -password")
-          .populate("improvements");
+          .populate({
+            path: "areas",
+            populate: { path: "improvements", model: "Improvement" },
+          });
 
         return userData;
       }

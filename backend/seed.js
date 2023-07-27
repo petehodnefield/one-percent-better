@@ -1,12 +1,21 @@
+import Area from "./models/Area.js";
 import Improvement from "./models/Improvement.js";
 import User from "./models/User.js";
 export default async function seedDB() {
   await User.deleteMany();
   await Improvement.deleteMany();
+  await Area.deleteMany();
 
   const createUserTest = await User.create({
     username: "testuser",
     password: "password",
+  });
+
+  const createAreaOne = await Area.create({
+    area: "Web Development",
+  });
+  const createAreaTwo = await Area.create({
+    area: "Music Production",
   });
 
   const generateSkill = (index) => {
@@ -180,8 +189,19 @@ export default async function seedDB() {
       _id: createUserTest._id,
     },
     {
-      $push: { improvements: improvements },
+      $push: { areas: { $each: [createAreaOne, createAreaTwo] } },
     },
+    { new: true }
+  );
+
+  const updateAreaOne = await Area.findOneAndUpdate(
+    { _id: createAreaOne._id },
+    { $push: { improvements: improvements } },
+    { new: true }
+  );
+  const updateAreaTwo = await Area.findOneAndUpdate(
+    { _id: createAreaTwo._id },
+    { $push: { improvements: improvements } },
     { new: true }
   );
 

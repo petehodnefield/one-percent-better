@@ -49,6 +49,40 @@ export const ME = gql`
       _id
       username
       password
+      areas {
+        _id
+        area
+        improvements {
+          _id
+          date
+          skillPercentage
+          description
+        }
+      }
+    }
+  }
+`;
+
+export const SINGLE_AREA = gql`
+  query Area($areaId: ID!) {
+    area(id: $areaId) {
+      _id
+      area
+      improvements {
+        _id
+        date
+        skillPercentage
+        description
+      }
+    }
+  }
+`;
+
+export const AREAS = gql`
+  query Areas {
+    areas {
+      _id
+      area
       improvements {
         _id
         date

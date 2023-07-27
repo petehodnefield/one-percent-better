@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { IMPROVEMENTS, ME } from "../../utils/queries";
+import { ME, AREAS } from "../../utils/queries";
 import { ADD_IMPROVEMENT } from "../../utils/mutations";
 import Link from "next/link";
 import { Line } from "react-chartjs-2";
@@ -35,9 +35,17 @@ const HomeContent = () => {
   const [completedImprovement, setCompletedImprovement] = useState();
 
   const [userID, setUserId] = useState("");
-  const { loading, data, error } = useQuery(IMPROVEMENTS);
+
+  const [selectedArea, setSelectedArea] = useState("Loading...");
 
   const { loading: meLoading, data: meData, error: meError } = useQuery(ME);
+
+  const {
+    loading: areaLoading,
+    data: areaData,
+    error: areaError,
+  } = useQuery(AREAS);
+
   const [
     addImprovement,
     {
@@ -53,19 +61,20 @@ const HomeContent = () => {
       userId: userID,
     },
   });
+  console.log("meData", meData);
 
   useEffect(() => {
     // Checks to see if meData exists yet. If not, return
     if (
       meData === undefined ||
       meData.me === null ||
-      meData.me.improvements === null ||
-      meData.me.improvements === undefined
+      meData.me.areas === null ||
+      meData.me.areas === undefined
     ) {
       return;
     }
     // This is the code that runs if the user has 0 improvements
-    else if (meData.me.improvements.length === 0) {
+    else if (meData.me.areas.length === 0) {
       setUserId(meData.me._id);
       setNewImprovement({
         ...newImprovement,
@@ -75,27 +84,31 @@ const HomeContent = () => {
     }
     //This code run if the user already has previous improvements
     else {
+      console.log("meData", meData);
+      setSelectedArea(meData.me.areas[0].area);
       setUserId(meData.me._id);
-      const improvements = meData.me.improvements.map((data, index, arr) => {
-        if (arr.length - 1 === index) {
-          if (data.date === todaysDate) {
-            setCompletedImprovement(true);
+      const improvements = meData.me.areas[0].improvements.map(
+        (data, index, arr) => {
+          if (arr.length - 1 === index) {
+            if (data.date === todaysDate) {
+              setCompletedImprovement(true);
+            }
+            const newSkillPercentage = data.skillPercentage * 1.01;
+            setNewImprovement({
+              ...newImprovement,
+              skillPercentage: newSkillPercentage,
+              date: todaysDate,
+            });
           }
-          const newSkillPercentage = data.skillPercentage * 1.01;
-          setNewImprovement({
-            ...newImprovement,
-            skillPercentage: newSkillPercentage,
-            date: todaysDate,
-          });
+          setImprovements((oldImprovements) => [
+            ...oldImprovements,
+            {
+              date: data.date,
+              improvement: data.skillPercentage,
+            },
+          ]);
         }
-        setImprovements((oldImprovements) => [
-          ...oldImprovements,
-          {
-            date: data.date,
-            improvement: data.skillPercentage,
-          },
-        ]);
-      });
+      );
     }
   }, [meData]);
 
@@ -113,7 +126,7 @@ const HomeContent = () => {
     addNewImprovement();
     window.location.reload();
   };
-  if (improvements.length < 0 || loading) return <Loading />;
+  if (improvements.length < 0) return <Loading />;
   return (
     <div className="home-content rounded-lg">
       {/* Link to stats view */}
@@ -126,7 +139,7 @@ const HomeContent = () => {
           <h2 className="home-content__title">My focus:</h2>
           <p className="home-content__goal">
             Increase my{" "}
-            <span className="bold text--primary">web developer</span> skills by
+            <span className="bold text--primary">{selectedArea}</span> skills by
             1% every day.
           </p>{" "}
         </div>

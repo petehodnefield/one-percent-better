@@ -13,7 +13,7 @@ import auth from "./utils/auth.js";
 const db = await mongoose.connect(
   "mongodb://127.0.0.1:27017/one-percent-better"
 );
-// const seed = await seedDB();
+const seed = await seedDB();
 console.info("connected to db!");
 
 const server = new ApolloServer({
