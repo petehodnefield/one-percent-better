@@ -201,7 +201,7 @@ export default async function seedDB() {
   );
   const updateAreaTwo = await Area.findOneAndUpdate(
     { _id: createAreaTwo._id },
-    { $push: { improvements: improvements } },
+    { $push: { improvements: improvements[1] } },
     { new: true }
   );
 

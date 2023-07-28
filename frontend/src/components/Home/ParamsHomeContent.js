@@ -1,41 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { ME, AREAS } from "../../utils/queries";
-import { ADD_IMPROVEMENT, ADD_AREA } from "../../utils/mutations";
+import { ADD_AREA, ADD_IMPROVEMENT } from "../../utils/mutations";
+import { ME, SINGLE_AREA } from "../../utils/queries";
+import NoImprovements from "../NoImprovements/NoImprovements";
 import Link from "next/link";
+import { todaysDate } from "../../utils/date";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
-import Loading from "../Loading/Loading";
-import NoImprovements from "../NoImprovements/NoImprovements";
-import { todaysDate } from "../../utils/date";
-import Error from "../Error/Error";
-const HomeContent = ({}) => {
-  // State handling our previous allImprovements data
-  // const [allImprovements, setAllImprovementss] = useState([]);
-  // State handling our form data
-  const [newImprovement, setNewImprovement] = useState({});
+const ParamsHomeContent = ({
+  noImprovements,
+  areaID,
+  newImprovement,
+  setNewImprovement,
+}) => {
   const [selectedArea, setSelectedArea] = useState("");
   const [allImprovements, setAllImprovements] = useState("");
-  const [completedImprovement, setCompletedImprovement] = useState();
-  const [newArea, setNewArea] = useState("");
-  const [userID, setUserId] = useState("");
-  const [areaId, setAreaId] = useState("");
-  const [noImprovements, setNoImprovements] = useState(false);
-  const [addNewAreaOpen, setAddNewAreaOpen] = useState(false);
+
   const [areaDropdownOpen, setAreaDropdownOpen] = useState(false);
+  const [completedImprovement, setCompletedImprovement] = useState();
+  const [addNewAreaOpen, setAddNewAreaOpen] = useState(false);
+  const [newArea, setNewArea] = useState("");
+  const [userID, setUserID] = useState("");
 
-  const [addArea] = useMutation(ADD_AREA);
-
-  const { loading: meLoading, data: meData, error: meError } = useQuery(ME);
-
-  // Areas Query
+  const { loading, data: meData, error } = useQuery(ME);
   const {
     loading: areaLoading,
     data: areaData,
     error: areaError,
-  } = useQuery(AREAS);
-
-  // addImprovement Mutation
+  } = useQuery(SINGLE_AREA, {
+    variables: { areaId: areaID },
+  });
+  const [addArea] = useMutation(ADD_AREA);
   const [
     addImprovement,
     {
@@ -45,6 +40,7 @@ const HomeContent = ({}) => {
     },
   ] = useMutation(ADD_IMPROVEMENT);
 
+  // ME Query
   useEffect(() => {
     // Checks to see if meData exists yet. If not, return
     if (
@@ -54,50 +50,56 @@ const HomeContent = ({}) => {
       meData.me.areas === undefined
     ) {
       return;
-    }
-    // This is the code that runs if the user has only 1 area
-    else if (meData.me.areas.length === 1) {
-      console.log("meData", meData.me.areas);
-      setAreaId(meData.me.areas[0]._id);
-      setSelectedArea(meData.me.areas[0].area);
-
-      setUserId(meData.me._id);
-      setNewImprovement({
-        ...newImprovement,
-        skillPercentage: 1,
-        date: todaysDate,
-      });
-    }
-    //This code run if the user already has previous allImprovements
-    else {
-      setSelectedArea(meData.me.areas[0].area);
-      setUserId(meData.me._id);
-      setAreaId(meData.me.areas[0]._id);
-
-      const allImprovements = meData.me.areas[0].improvements.map(
-        (data, index, arr) => {
-          if (arr.length - 1 === index) {
-            if (data.date === todaysDate) {
-              // setCompletedImprovement(true);
-            }
-            const newSkillPercentage = data.skillPercentage * 1.01;
-            setNewImprovement({
-              ...newImprovement,
-              skillPercentage: newSkillPercentage,
-              date: todaysDate,
-            });
-          }
-          setAllImprovements((oldImprovements) => [
-            ...oldImprovements,
-            {
-              date: data.date,
-              improvement: data.skillPercentage,
-            },
-          ]);
-        }
-      );
+    } else {
+      setUserID(meData.me._id);
     }
   }, [meData]);
+
+  // Query our selected Area
+  useEffect(() => {
+    if (
+      areaData === undefined ||
+      areaData.area === null ||
+      areaData.area.area === null ||
+      areaData.area.area === undefined
+    ) {
+      return;
+    } else {
+      setAllImprovements([]);
+      setSelectedArea(areaData.area.area);
+      const areaSpecificImprovements = areaData.area.improvements;
+      console.log("areaData", areaSpecificImprovements);
+      const improvements = areaSpecificImprovements.map((data, index, arr) => {
+        if (arr.lenght - 1 === index) {
+          setCompletedImprovement(true);
+        }
+        let newSkillPercentage;
+        if (allImprovements.length === 0) {
+          newSkillPercentage = 1;
+          setNewImprovement({
+            ...newImprovement,
+            skillPercentage: newSkillPercentage,
+            date: todaysDate,
+          });
+        } else {
+          newSkillPercentage = data.skillPercentage * 1.01;
+          setNewImprovement({
+            ...newImprovement,
+            skillPercentage: newSkillPercentage,
+            date: todaysDate,
+          });
+        }
+        setAllImprovements((oldImprovements) => [
+          ...oldImprovements,
+          {
+            date: data.date,
+            improvement: data.skillPercentage,
+          },
+        ]);
+        console.log(data);
+      });
+    }
+  }, [areaData]);
 
   // Handler that adds a new improvement
   async function addNewImprovement() {
@@ -109,7 +111,7 @@ const HomeContent = ({}) => {
           date: todaysDate,
           skillPercentage: newImprovement.skillPercentage,
           description: newImprovement.description,
-          areaId: areaId,
+          areaID: areaID,
         },
       });
     } catch (e) {
@@ -118,9 +120,23 @@ const HomeContent = ({}) => {
   }
 
   // Function that runs when 'Add Improvement' button is clicked
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
+    console.log(
+      `DATA: ${todaysDate} ${newImprovement.description} ${newImprovement.skillPercentage} ${areaID}`
+    );
     e.preventDefault();
-    addNewImprovement();
+    try {
+      await addImprovement({
+        variables: {
+          date: todaysDate,
+          skillPercentage: newImprovement.skillPercentage,
+          description: newImprovement.description,
+          areaId: areaID,
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
     window.location.reload();
   };
 
@@ -132,10 +148,7 @@ const HomeContent = ({}) => {
       console.log(e);
     }
   };
-  // If anything is loading, return Loading component
-  if (areaLoading || newImprovementLoading || meLoading) return <Loading />;
 
-  if (meError || newImprovementError) return <Error />;
   return (
     <div className="home-content rounded-lg">
       {noImprovements ? <NoImprovements /> : ""}
@@ -163,7 +176,6 @@ const HomeContent = ({}) => {
                   href={`/${area._id}`}
                   onClick={() => {
                     setSelectedArea(area.area);
-                    setAreaId(area._id);
                     setAreaDropdownOpen(!areaDropdownOpen);
                   }}
                   className="home-content__area"
@@ -236,7 +248,11 @@ const HomeContent = ({}) => {
         List view
       </Link>
       {/* Form where you input what you worked on that day */}
-      <form onSubmit={handleFormSubmit} id="improvementForm" className="form">
+      <form
+        onSubmit={handleFormSubmit}
+        id="improvementFormParam"
+        className="form"
+      >
         <div className="improvement-form__content">
           <div className="improvement-form__text-wrapper improvement-form__text-wrapper--left">
             <label
@@ -276,4 +292,4 @@ const HomeContent = ({}) => {
   );
 };
 
-export default HomeContent;
+export default ParamsHomeContent;

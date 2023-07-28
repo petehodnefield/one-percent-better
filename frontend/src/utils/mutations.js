@@ -39,17 +39,17 @@ export const DELETE_AREA = gql`
 `;
 
 export const ADD_IMPROVEMENT = gql`
-  mutation Mutation(
+  mutation AddImprovement(
     $date: String!
     $skillPercentage: Float!
     $description: String!
-    $userId: ID!
+    $areaId: ID!
   ) {
     addImprovement(
       date: $date
       skillPercentage: $skillPercentage
       description: $description
-      userId: $userId
+      areaId: $areaId
     ) {
       _id
       date
