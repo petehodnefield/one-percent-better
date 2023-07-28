@@ -7,7 +7,7 @@ const ImprovementDetails = ({ improvement }) => {
   const [newDescription, setNewDescription] = useState("");
   const [inputDisabled, setInputDisabled] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  console.log("improvement", improvement);
+  console.log("improvementDetials", improvement);
   const inputRef = useRef(null);
 
   const [deleteImprovement, { loading, data, error }] =
@@ -85,7 +85,6 @@ const ImprovementDetails = ({ improvement }) => {
           </p>
         </div>
       </div>
-
       {/* Description */}
       {!isEditing ? (
         <p
@@ -106,7 +105,6 @@ const ImprovementDetails = ({ improvement }) => {
           maxLength={50}
         />
       )}
-
       {/* Skill Level */}
       <p className="list__skill list__column--3">
         {improvement.improvement.toString().slice(0, 5)}

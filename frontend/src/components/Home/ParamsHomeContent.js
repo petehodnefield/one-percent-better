@@ -161,12 +161,21 @@ const ParamsHomeContent = ({
           meData={meData}
           addNewAreaOpen={addNewAreaOpen}
           setView={setView}
+          setAddNewAreaOpen={setAddNewAreaOpen}
+          setNewArea={setNewArea}
+          handleNewArea={handleNewArea}
+          setNewImprovement={setNewImprovement}
+          newImprovement={newImprovement}
         />
       ) : (
         <ParamsListView
           setView={setView}
           selectedArea={selectedArea}
           improvements={allImprovements}
+          areaDropdownOpen={areaDropdownOpen}
+          setAreaDropdownOpen={setAreaDropdownOpen}
+          meData={meData}
+          addNewAreaOpen={addNewAreaOpen}
         />
       )}
     </div>

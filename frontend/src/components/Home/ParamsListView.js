@@ -1,7 +1,15 @@
 import React from "react";
 import Link from "next/link";
 import ImprovementDetails from "../ImprovementDetails/ImprovementDetails";
-const ParamsListView = ({ improvements, setView, selectedArea }) => {
+const ParamsListView = ({
+  improvements,
+  setView,
+  selectedArea,
+  areaDropdownOpen,
+  setAreaDropdownOpen,
+  meData,
+  addNewAreaOpen,
+}) => {
   return (
     <div className="">
       <p onClick={() => setView("graph")} className="btn--view list-view">
@@ -11,9 +19,58 @@ const ParamsListView = ({ improvements, setView, selectedArea }) => {
       <div className="home-content__text-wrapper">
         <h2 className="home-content__title">My focus:</h2>
         <p className="home-content__goal">
-          Increase my <span className="bold text--primary">{selectedArea}</span>{" "}
+          Increase my{" "}
+          <span
+            onClick={() => setAreaDropdownOpen(!areaDropdownOpen)}
+            className="bold text--primary home-content__area-selected"
+          >
+            {selectedArea}
+          </span>{" "}
           skills by 1%
         </p>{" "}
+        {areaDropdownOpen ? (
+          <div className="home-content__areas-wrapper">
+            {meData.me.areas.map((area) => (
+              <Link
+                href={`/${area._id}`}
+                onClick={() => {
+                  setAreaDropdownOpen(!areaDropdownOpen);
+                }}
+                className="home-content__area"
+                key={area.area}
+              >
+                {area.area}
+              </Link>
+            ))}
+            {addNewAreaOpen ? (
+              <form
+                onSubmit={(e) => handleNewArea(e)}
+                className="home-content__area-form"
+                action=""
+              >
+                <input
+                  className="form__input home-content__area-input"
+                  type="text"
+                  onChange={(e) => setNewArea(e.target.value)}
+                />
+                <button type="submit" className="home-content__area-button">
+                  Submit
+                </button>
+              </form>
+            ) : (
+              <div
+                onClick={() => {
+                  setAddNewAreaOpen(!addNewAreaOpen);
+                }}
+                className="home-content__area"
+              >
+                Add an area{" "}
+              </div>
+            )}
+          </div>
+        ) : (
+          ""
+        )}
       </div>
       {/* Container with improvement data */}
       <div className="  home-data--list rounded">

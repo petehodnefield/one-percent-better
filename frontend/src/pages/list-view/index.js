@@ -9,10 +9,9 @@ import ImprovementDetails from "../../components/ImprovementDetails/ImprovementD
 
 import Link from "next/link";
 
-const ListView = ({ setView }) => {
+const ListView = ({ areaId }) => {
   // Fetch our API for all improvements
   const [improvements, setImprovements] = useState();
-
   const { loading, data, error } = useQuery(ME);
   console.log("data", data);
   useEffect(() => {
@@ -21,14 +20,13 @@ const ListView = ({ setView }) => {
     } else {
       setImprovements(data.me.areas[0].improvements);
     }
+    console.log("randy orton", improvements);
   }, [data]);
 
   if (loading) return <div>Loading...</div>;
 
   return (
     <main className="home">
-      {/* Background image */}
-
       {/* Title */}
       <div className="home__title-wrapper">
         <div className="home__title-content">

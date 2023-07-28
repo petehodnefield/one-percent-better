@@ -14,6 +14,11 @@ const ParamsGraphView = ({
   meData,
   addNewAreaOpen,
   setView,
+  setAddNewAreaOpen,
+  setNewArea,
+  handleNewArea,
+  setNewImprovement,
+  newImprovement,
 }) => {
   return (
     <div>
