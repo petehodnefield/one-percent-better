@@ -60,7 +60,7 @@ const ListView = ({ setView }) => {
             <h3 className="list__title list__column--2">Description</h3>
             <h3 className="list__title list__column--3">Skill Level</h3>
           </div>
-          {/* This is where we'll map through all of our improvements */}
+          {/* This is where we&apos;ll map through all of our improvements */}
           {improvements
             ? improvements
                 .toReversed()

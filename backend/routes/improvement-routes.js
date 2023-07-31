@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
   return res.status(201).json(allImprovements);
 });
 
-// Update an improvement's description
+// Update an improvements description
 router.put("/:id", async (req, res) => {
   const updateImprovement = await Improvement.findOneAndUpdate(
     { _id: req.query.id },
