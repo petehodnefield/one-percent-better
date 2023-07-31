@@ -11,7 +11,7 @@ const ParamsListView = ({
   addNewAreaOpen,
 }) => {
   return (
-    <div className="">
+    <div className="home-content rounded-lg">
       <p onClick={() => setView("graph")} className="btn--view list-view">
         Graph view
       </p>

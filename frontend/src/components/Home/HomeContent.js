@@ -140,9 +140,9 @@ const HomeContent = ({}) => {
 
   if (meError || newImprovementError) return <Error />;
   return (
-    <div className="home-content rounded-lg">
+    <div className=" rounded-lg">
       {view === "graph" ? (
-        <div>
+        <div className="home-content rounded-lg">
           {noImprovements ? <NoImprovements /> : ""}
           {/* Link to stats view */}
           <p onClick={() => setView("list")} className="btn--view list-view">
@@ -286,7 +286,7 @@ const HomeContent = ({}) => {
         </div>
       ) : (
         <div>
-          <div>
+          <div className="home-content rounded-lg">
             <p onClick={() => setView("graph")} className="btn--view list-view">
               Graph view
             </p>

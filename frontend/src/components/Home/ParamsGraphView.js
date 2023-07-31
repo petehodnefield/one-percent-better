@@ -21,7 +21,7 @@ const ParamsGraphView = ({
   newImprovement,
 }) => {
   return (
-    <div>
+    <div className="home-content rounded-lg">
       {noImprovements ? <NoImprovements /> : ""}
       {/* Link to stats view */}
       <p onClick={() => setView("list")} className="btn--view list-view">

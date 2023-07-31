@@ -150,7 +150,7 @@ const ParamsHomeContent = ({
   };
 
   return (
-    <div className="home-content rounded-lg">
+    <div>
       {view === "graph" ? (
         <ParamsGraphView
           setAreaDropdownOpen={setAreaDropdownOpen}
