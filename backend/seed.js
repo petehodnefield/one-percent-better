@@ -17,6 +17,9 @@ export default async function seedDB() {
   const createAreaTwo = await Area.create({
     area: "Music Production",
   });
+  const createAreaThree = await Area.create({
+    area: "Marketing",
+  });
 
   const generateSkill = (index) => {
     const exponentialGain = 1.01 ** index;
@@ -189,7 +192,9 @@ export default async function seedDB() {
       _id: createUserTest._id,
     },
     {
-      $push: { areas: { $each: [createAreaOne, createAreaTwo] } },
+      $push: {
+        areas: { $each: [createAreaOne, createAreaTwo, createAreaThree] },
+      },
     },
     { new: true }
   );
@@ -201,7 +206,12 @@ export default async function seedDB() {
   );
   const updateAreaTwo = await Area.findOneAndUpdate(
     { _id: createAreaTwo._id },
-    { $push: { improvements: improvements[0] } },
+    { $push: { improvements: improvements.slice(0, 22) } },
+    { new: true }
+  );
+  const updateAreaThree = await Area.findOneAndUpdate(
+    { _id: createAreaThree._id },
+    { $push: { improvements: improvements.slice(0, 14) } },
     { new: true }
   );
 
