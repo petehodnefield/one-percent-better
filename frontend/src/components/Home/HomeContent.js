@@ -94,6 +94,7 @@ const HomeContent = ({}) => {
               date: data.date,
               description: data.description,
               improvement: data.skillPercentage,
+              improvementId: data._id,
             },
           ]);
         }
