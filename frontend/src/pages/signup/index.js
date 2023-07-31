@@ -5,7 +5,7 @@ import { ADD_USER } from "../../utils/mutations";
 import Auth from "../../utils/Auth";
 import Link from "next/link";
 import Banner from "../../components/Banner/Banner";
-const index = () => {
+const SignUp = () => {
   const [userInfo, setUserInfo] = useState({});
   const [usernameAvailable, setUsernameAvailable] = useState(true);
   const [addUser, { loading, data, error }] = useMutation(ADD_USER);
@@ -110,4 +110,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default SignUp;
