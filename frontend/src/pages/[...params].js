@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { SINGLE_AREA } from "../utils/queries";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
+import { ADD_IMPROVEMENT } from "../utils/mutations";
 import { initializeApollo } from "../../lib/apollo";
 import HomeContent from "../components/Home/HomeContent";
 import { todaysDate } from "../utils/date";
@@ -9,47 +10,16 @@ import Banner from "../components/Banner/Banner";
 import Auth from "../utils/Auth";
 import { LoginContext } from "./_app";
 import { logout } from "../utils/logout";
+import Loading from "../components/Loading/Loading";
 const AreaDetails = ({ queryID }) => {
-  const [newImprovement, setNewImprovement] = useState({});
   const [loggedIn, setLoggedIn] = useContext(LoginContext);
   const [noImprovements, setNoImprovements] = useState(false);
   const areaID = queryID.params[0];
 
-  // Handler that adds a new improvement
-  async function addNewImprovement() {
-    // Set today as completed (so you can't add more than one point)
-    setCompletedImprovement(true);
-    try {
-      await addImprovement({
-        variables: {
-          date: todaysDate,
-          skillPercentage: newImprovement.skillPercentage,
-          description: newImprovement.description,
-          areaId: areaId,
-        },
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  // Function that runs when 'Add Improvement' button is clicked
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    addNewImprovement();
-    window.location.reload();
-  };
-
   return (
     <div className="home">
       <Banner />
-      <ParamsHomeContent
-        noImprovements={noImprovements}
-        handleFormSubmit={handleFormSubmit}
-        areaID={areaID}
-        newImprovement={newImprovement}
-        setNewImprovement={setNewImprovement}
-      />
+      <ParamsHomeContent noImprovements={noImprovements} areaID={areaID} />
       {loggedIn ? (
         <button
           onClick={logout}

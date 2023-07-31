@@ -9,12 +9,7 @@ import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import ParamsGraphView from "./ParamsGraphView";
 import ParamsListView from "./ParamsListView";
-const ParamsHomeContent = ({
-  noImprovements,
-  areaID,
-  newImprovement,
-  setNewImprovement,
-}) => {
+const ParamsHomeContent = ({ noImprovements, areaID }) => {
   const [selectedArea, setSelectedArea] = useState("");
   const [allImprovements, setAllImprovements] = useState("");
   const [view, setView] = useState("graph");
@@ -23,6 +18,8 @@ const ParamsHomeContent = ({
   const [addNewAreaOpen, setAddNewAreaOpen] = useState(false);
   const [newArea, setNewArea] = useState("");
   const [userID, setUserID] = useState("");
+  const [newImprovement, setNewImprovement] = useState("");
+  // console.log("newImprovement", newImprovement);
 
   const { loading, data: meData, error } = useQuery(ME);
   const {
@@ -66,13 +63,30 @@ const ParamsHomeContent = ({
       areaData.area.area === undefined
     ) {
       return;
+    }
+    // If there's no improvements yet,
+    else if (areaData.area.improvements.length === 0) {
+      console.log("There are no improvements!");
+      setAllImprovements([]);
+      setSelectedArea(areaData.area.area);
+      setNewImprovement({
+        ...newImprovement,
+        skillPercentage: 1,
+        date: todaysDate,
+      });
     } else {
       setAllImprovements([]);
       setSelectedArea(areaData.area.area);
       const areaSpecificImprovements = areaData.area.improvements;
       const improvements = areaSpecificImprovements.map((data, index, arr) => {
         if (arr.length - 1 === index) {
-          // setCompletedImprovement(true);
+          if (data.date === todaysDate) {
+            console.log("dates match!");
+            setCompletedImprovement(true);
+          } else {
+            console.log("Dates Dont match!");
+            setCompletedImprovement(false);
+          }
         }
         setAllImprovements((oldImprovements) => [
           ...oldImprovements,
@@ -83,48 +97,20 @@ const ParamsHomeContent = ({
             improvementId: data._id,
           },
         ]);
-        let newSkillPercentage;
-        if (allImprovements.length === 0) {
-          console.log(allImprovements);
-          newSkillPercentage += 1;
-          setNewImprovement({
-            ...newImprovement,
-            skillPercentage: newSkillPercentage,
-            date: todaysDate,
-          });
-        } else {
-          newSkillPercentage += data.skillPercentage * 1.01;
-          setNewImprovement({
-            ...newImprovement,
-            skillPercentage: newSkillPercentage,
-            date: todaysDate,
-          });
-        }
+        const newSkillPercentage = data.skillPercentage * 1.01;
+        setNewImprovement({
+          ...newImprovement,
+          skillPercentage: newSkillPercentage,
+          date: todaysDate,
+        });
       });
     }
   }, [areaData]);
 
-  // Handler that adds a new improvement
-  async function addNewImprovement() {
-    // Set today as completed (so you can't add more than one point)
-    setCompletedImprovement(true);
-    try {
-      await addImprovement({
-        variables: {
-          date: todaysDate,
-          skillPercentage: newImprovement.skillPercentage,
-          description: newImprovement.description,
-          areaID: areaID,
-        },
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   // Function that runs when 'Add Improvement' button is clicked
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    console.log(newImprovement, areaID);
     try {
       await addImprovement({
         variables: {

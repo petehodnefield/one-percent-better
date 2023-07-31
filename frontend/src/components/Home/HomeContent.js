@@ -17,7 +17,7 @@ const HomeContent = ({}) => {
   const [newImprovement, setNewImprovement] = useState({});
   const [selectedArea, setSelectedArea] = useState("");
   const [allImprovements, setAllImprovements] = useState("");
-  const [completedImprovement, setCompletedImprovement] = useState();
+  const [completedImprovement, setCompletedImprovement] = useState(false);
   const [newArea, setNewArea] = useState("");
   const [userID, setUserId] = useState("");
   const [areaId, setAreaId] = useState("");
@@ -79,7 +79,7 @@ const HomeContent = ({}) => {
         (data, index, arr) => {
           if (arr.length - 1 === index) {
             if (data.date === todaysDate) {
-              // setCompletedImprovement(true);
+              setCompletedImprovement(true);
             }
             const newSkillPercentage = data.skillPercentage * 1.01;
             setNewImprovement({
@@ -106,6 +106,7 @@ const HomeContent = ({}) => {
   async function addNewImprovement() {
     // Set today as completed (so you can't add more than one point)
     setCompletedImprovement(true);
+
     try {
       await addImprovement({
         variables: {
