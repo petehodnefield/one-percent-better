@@ -13,14 +13,12 @@ import HomeContent from "../components/Home/HomeContent";
 import LoginForm from "../components/Login/LoginForm";
 import Banner from "../components/Banner/Banner";
 import Login from "./login";
+import { logout } from "../utils/logout";
 
 export default function Home() {
   // Login Context
   const [loggedIn, setLoggedIn] = useContext(LoginContext);
-  const logout = (e) => {
-    e.preventDefault();
-    Auth.logout();
-  };
+
   return (
     <div className="home">
       <Banner />

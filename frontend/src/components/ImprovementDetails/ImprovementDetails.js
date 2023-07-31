@@ -7,7 +7,7 @@ const ImprovementDetails = ({ improvement }) => {
   const [newDescription, setNewDescription] = useState("");
   const [inputDisabled, setInputDisabled] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  console.log("improvementDetials", improvement);
+  console.log("improvementDetials", improvement.improvementId);
   const inputRef = useRef(null);
 
   const [deleteImprovement, { loading, data, error }] =
@@ -79,7 +79,7 @@ const ImprovementDetails = ({ improvement }) => {
 
           <p
             className="list__action list__action--red"
-            onClick={() => removeImprovement(improvement._id)}
+            onClick={() => removeImprovement(improvement.improvementId)}
           >
             Delete
           </p>

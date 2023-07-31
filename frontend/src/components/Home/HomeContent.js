@@ -171,7 +171,7 @@ const HomeContent = ({}) => {
                         setAreaDropdownOpen(!areaDropdownOpen);
                       }}
                       className="home-content__area"
-                      key={area.area}
+                      key={area._id}
                     >
                       {area.area}
                     </Link>

@@ -71,24 +71,8 @@ const ParamsHomeContent = ({
       setSelectedArea(areaData.area.area);
       const areaSpecificImprovements = areaData.area.improvements;
       const improvements = areaSpecificImprovements.map((data, index, arr) => {
-        if (arr.lenght - 1 === index) {
-          setCompletedImprovement(true);
-        }
-        let newSkillPercentage;
-        if (allImprovements.length === 0) {
-          newSkillPercentage = 1;
-          setNewImprovement({
-            ...newImprovement,
-            skillPercentage: newSkillPercentage,
-            date: todaysDate,
-          });
-        } else {
-          newSkillPercentage = data.skillPercentage * 1.01;
-          setNewImprovement({
-            ...newImprovement,
-            skillPercentage: newSkillPercentage,
-            date: todaysDate,
-          });
+        if (arr.length - 1 === index) {
+          // setCompletedImprovement(true);
         }
         setAllImprovements((oldImprovements) => [
           ...oldImprovements,
@@ -96,8 +80,26 @@ const ParamsHomeContent = ({
             date: data.date,
             description: data.description,
             improvement: data.skillPercentage,
+            improvementId: data._id,
           },
         ]);
+        let newSkillPercentage;
+        if (allImprovements.length === 0) {
+          console.log(allImprovements);
+          newSkillPercentage += 1;
+          setNewImprovement({
+            ...newImprovement,
+            skillPercentage: newSkillPercentage,
+            date: todaysDate,
+          });
+        } else {
+          newSkillPercentage += data.skillPercentage * 1.01;
+          setNewImprovement({
+            ...newImprovement,
+            skillPercentage: newSkillPercentage,
+            date: todaysDate,
+          });
+        }
       });
     }
   }, [areaData]);
