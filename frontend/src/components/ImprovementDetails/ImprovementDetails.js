@@ -70,7 +70,10 @@ const ImprovementDetails = ({ improvement }) => {
               onClick={() => {
                 setInputDisabled(false);
                 setIsEditing(false);
-                updateImprovement(improvement._id, newDescription.description);
+                updateImprovement(
+                  improvement.improvementId,
+                  newDescription.description
+                );
               }}
             >
               Save
