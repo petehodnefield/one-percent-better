@@ -72,7 +72,7 @@ const GraphView = ({
             />
           </div>
           <div className="improvement-form__text-wrapper improvement-form__text-wrapper--centered">
-            <h3 className="improvement-form__title--lg">Today's date</h3>
+            <h3 className="improvement-form__title--lg">Today&apos;s date</h3>
             <p className="improvement-form__date">{todaysDate}</p>
             <button
               type="submit"
