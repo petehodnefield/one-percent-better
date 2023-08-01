@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { ADD_AREA, ADD_IMPROVEMENT, DELETE_AREA } from "../../utils/mutations";
+import {
+  ADD_AREA,
+  ADD_IMPROVEMENT,
+  DELETE_AREA,
+  UPDATE_IMPROVEMENT,
+} from "../../utils/mutations";
 import { ME, SINGLE_AREA } from "../../utils/queries";
 import NoImprovements from "../NoImprovements/NoImprovements";
 import Link from "next/link";
@@ -10,6 +15,7 @@ import Chart from "chart.js/auto";
 import ParamsGraphView from "./ParamsGraphView";
 import ParamsListView from "./ParamsListView";
 import GraphView from "./GraphView";
+import ListView from "./ListView";
 const ParamsHomeContent = ({ noImprovements, areaID }) => {
   const [selectedArea, setSelectedArea] = useState("");
   const [allImprovements, setAllImprovements] = useState("");
@@ -32,6 +38,7 @@ const ParamsHomeContent = ({ noImprovements, areaID }) => {
     variables: { areaId: areaID },
   });
   const [addArea] = useMutation(ADD_AREA);
+  const [updateImprovement] = useMutation(UPDATE_IMPROVEMENT);
   const [
     addImprovement,
     {
@@ -173,14 +180,22 @@ const ParamsHomeContent = ({ noImprovements, areaID }) => {
           setView={setView}
         />
       ) : (
-        <ParamsListView
-          setView={setView}
-          selectedArea={selectedArea}
-          improvements={allImprovements}
-          areaDropdownOpen={areaDropdownOpen}
+        <ListView
+          newImprovement={newImprovement}
+          setNewImprovement={setNewImprovement}
+          allImprovements={allImprovements}
+          noImprovements={noImprovements}
           setAreaDropdownOpen={setAreaDropdownOpen}
+          areaDropdownOpen={areaDropdownOpen}
           meData={meData}
+          selectedArea={selectedArea}
+          handleFormSubmit={handleFormSubmit}
+          setNewArea={setNewArea}
+          setAddNewAreaOpen={setAddNewAreaOpen}
           addNewAreaOpen={addNewAreaOpen}
+          handleNewArea={handleNewArea}
+          completedImprovement={completedImprovement}
+          setView={setView}
         />
       )}
     </div>

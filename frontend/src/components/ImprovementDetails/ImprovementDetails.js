@@ -20,7 +20,8 @@ const ImprovementDetails = ({ improvement }) => {
 
   async function removeImprovement(improvement) {
     try {
-      deleteImprovement({
+      // Remove the selected improvement
+      const removeImprovement = await deleteImprovement({
         variables: {
           deleteImprovementId: improvement,
         },
