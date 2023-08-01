@@ -1,44 +1,28 @@
 import React from "react";
 import Link from "next/link";
-import { todaysDate } from "../../utils/date";
-import { useMutation } from "@apollo/client";
-import { DELETE_AREA } from "../../utils/mutations";
-import { Line } from "react-chartjs-2";
-import Chart from "chart.js/auto";
 import NoImprovements from "../NoImprovements/NoImprovements";
 import AreaDropdown from "../AreaDropdown/AreaDropdown";
-const ParamsGraphView = ({
+import { todaysDate } from "../../utils/date";
+import { Line } from "react-chartjs-2";
+import Chart from "chart.js/auto";
+const GraphView = ({
+  newImprovement,
+  setNewImprovement,
+  allImprovements,
   noImprovements,
   setAreaDropdownOpen,
-  selectedArea,
   areaDropdownOpen,
-  allImprovements,
-  handleFormSubmit,
-  completedImprovement,
   meData,
-  addNewAreaOpen,
-  setView,
-  setAddNewAreaOpen,
+  selectedArea,
+  handleFormSubmit,
   setNewArea,
+  setAddNewAreaOpen,
+  addNewAreaOpen,
   handleNewArea,
-  setNewImprovement,
-  newImprovement,
+  completedImprovement,
+  handleAreaDeletion,
+  setView,
 }) => {
-  const [deleteArea] = useMutation(DELETE_AREA);
-
-  async function handleAreaDeletion(id) {
-    try {
-      await deleteArea({
-        variables: {
-          deleteAreaId: id,
-        },
-      });
-    } catch (e) {
-      console.log(e);
-    }
-    window.location.replace("/");
-  }
-
   return (
     <div className="home-content rounded-lg">
       {noImprovements ? <NoImprovements /> : ""}
@@ -107,11 +91,7 @@ const ParamsGraphView = ({
         List view
       </Link>
       {/* Form where you input what you worked on that day */}
-      <form
-        onSubmit={handleFormSubmit}
-        id="improvementFormParam"
-        className="form"
-      >
+      <form onSubmit={handleFormSubmit} id="improvementForm" className="form">
         <div className="improvement-form__content">
           <div className="improvement-form__text-wrapper improvement-form__text-wrapper--left">
             <label
@@ -151,4 +131,4 @@ const ParamsGraphView = ({
   );
 };
 
-export default ParamsGraphView;
+export default GraphView;

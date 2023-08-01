@@ -11,6 +11,7 @@ import { todaysDate } from "../../utils/date";
 import Error from "../Error/Error";
 import ImprovementDetails from "../ImprovementDetails/ImprovementDetails";
 import AreaDropdown from "../AreaDropdown/AreaDropdown";
+import GraphView from "./GraphView";
 const HomeContent = ({}) => {
   const [newImprovement, setNewImprovement] = useState({});
   const [selectedArea, setSelectedArea] = useState("");
@@ -178,116 +179,23 @@ const HomeContent = ({}) => {
   return (
     <div className=" rounded-lg">
       {view === "graph" ? (
-        <div className="home-content rounded-lg">
-          {noImprovements ? <NoImprovements /> : ""}
-          {/* Link to stats view */}
-          <p onClick={() => setView("list")} className="btn--view list-view">
-            List view
-          </p>
-          <div className="home-content-padding">
-            <div className="home-content__text-wrapper">
-              <h2 className="home-content__title">My focus:</h2>
-              <p className="home-content__goal">
-                Increase my{" "}
-                <span
-                  onClick={() => setAreaDropdownOpen(!areaDropdownOpen)}
-                  className="bold text--primary home-content__area-selected"
-                >
-                  {selectedArea}
-                </span>{" "}
-                skills by 1%
-              </p>{" "}
-              {areaDropdownOpen ? (
-                <AreaDropdown
-                  meData={meData}
-                  areaDropdownOpen={areaDropdownOpen}
-                  handleAreaDeletion={handleAreaDeletion}
-                  setNewArea={setNewArea}
-                  setAddNewAreaOpen={setAddNewAreaOpen}
-                  addNewAreaOpen={addNewAreaOpen}
-                  setAreaDropdownOpen={setAreaDropdownOpen}
-                  handleNewArea={handleNewArea}
-                />
-              ) : (
-                ""
-              )}
-            </div>
-            {noImprovements ? (
-              ""
-            ) : (
-              <div className="home-data rounded">
-                {allImprovements ? (
-                  <Line
-                    datasetIdKey="id"
-                    data={{
-                      labels: [],
-                      datasets: [
-                        {
-                          id: 1,
-                          label: "Web development skills",
-                          data: allImprovements,
-                          parsing: {
-                            xAxisKey: "date",
-                            yAxisKey: "improvement",
-                          },
-                        },
-                      ],
-                    }}
-                  />
-                ) : (
-                  ""
-                )}
-              </div>
-            )}
-            {/* Graph with data */}
-          </div>
-          <Link href="/list-view" className=" list-view--mobile">
-            List view
-          </Link>
-          {/* Form where you input what you worked on that day */}
-          <form
-            onSubmit={handleFormSubmit}
-            id="improvementForm"
-            className="form"
-          >
-            <div className="improvement-form__content">
-              <div className="improvement-form__text-wrapper improvement-form__text-wrapper--left">
-                <label
-                  htmlFor="improvement"
-                  className="improvement-form__title--sm"
-                >
-                  What I learned/practiced
-                </label>
-                <textarea
-                  name="improvement"
-                  id="improvement"
-                  onChange={(e) =>
-                    setNewImprovement({
-                      ...newImprovement,
-                      description: e.target.value,
-                    })
-                  }
-                  className="form__textarea form__textarea--light rounded"
-                  maxLength={50}
-                ></textarea>
-              </div>
-              <div className="improvement-form__text-wrapper improvement-form__text-wrapper--centered">
-                <h3 className="improvement-form__title--lg">
-                  Today&apos;s date
-                </h3>
-                <p className="improvement-form__date">{todaysDate}</p>
-                <button
-                  type="submit"
-                  className={`btn btn--lg btn--dark rounded-md ${
-                    completedImprovement ? "btn--disabled" : ""
-                  }`}
-                >
-                  Add improvement
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
+        <GraphView
+          newImprovement={newImprovement}
+          setNewImprovement={setNewImprovement}
+          allImprovements={allImprovements}
+          noImprovements={noImprovements}
+          setAreaDropdownOpen={setAreaDropdownOpen}
+          areaDropdownOpen={areaDropdownOpen}
+          meData={meData}
+          selectedArea={selectedArea}
+          handleFormSubmit={handleFormSubmit}
+          setNewArea={setNewArea}
+          setAddNewAreaOpen={setAddNewAreaOpen}
+          addNewAreaOpen={addNewAreaOpen}
+          handleNewArea={handleNewArea}
+          completedImprovement={completedImprovement}
+          setView={setView}
+        />
       ) : (
         <div>
           <div className="home-content rounded-lg">

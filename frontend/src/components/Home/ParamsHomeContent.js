@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { ADD_AREA, ADD_IMPROVEMENT } from "../../utils/mutations";
+import { ADD_AREA, ADD_IMPROVEMENT, DELETE_AREA } from "../../utils/mutations";
 import { ME, SINGLE_AREA } from "../../utils/queries";
 import NoImprovements from "../NoImprovements/NoImprovements";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import ParamsGraphView from "./ParamsGraphView";
 import ParamsListView from "./ParamsListView";
+import GraphView from "./GraphView";
 const ParamsHomeContent = ({ noImprovements, areaID }) => {
   const [selectedArea, setSelectedArea] = useState("");
   const [allImprovements, setAllImprovements] = useState("");
@@ -22,6 +23,7 @@ const ParamsHomeContent = ({ noImprovements, areaID }) => {
   // console.log("newImprovement", newImprovement);
 
   const { loading, data: meData, error } = useQuery(ME);
+  const [deleteArea] = useMutation(DELETE_AREA);
   const {
     loading: areaLoading,
     data: areaData,
@@ -136,25 +138,39 @@ const ParamsHomeContent = ({ noImprovements, areaID }) => {
     }
   };
 
+  async function handleAreaDeletion(id) {
+    try {
+      await deleteArea({
+        variables: {
+          deleteAreaId: id,
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    window.location.replace("/");
+  }
+
   return (
     <div>
       {view === "graph" ? (
-        <ParamsGraphView
-          setAreaDropdownOpen={setAreaDropdownOpen}
-          noImprovements={noImprovements}
-          selectedArea={selectedArea}
-          areaDropdownOpen={areaDropdownOpen}
-          allImprovements={allImprovements}
-          handleFormSubmit={handleFormSubmit}
-          completedImprovement={completedImprovement}
-          meData={meData}
-          addNewAreaOpen={addNewAreaOpen}
-          setView={setView}
-          setAddNewAreaOpen={setAddNewAreaOpen}
-          setNewArea={setNewArea}
-          handleNewArea={handleNewArea}
-          setNewImprovement={setNewImprovement}
+        <GraphView
           newImprovement={newImprovement}
+          setNewImprovement={setNewImprovement}
+          allImprovements={allImprovements}
+          noImprovements={noImprovements}
+          setAreaDropdownOpen={setAreaDropdownOpen}
+          areaDropdownOpen={areaDropdownOpen}
+          handleAreaDeletion={handleAreaDeletion}
+          meData={meData}
+          selectedArea={selectedArea}
+          handleFormSubmit={handleFormSubmit}
+          setNewArea={setNewArea}
+          setAddNewAreaOpen={setAddNewAreaOpen}
+          addNewAreaOpen={addNewAreaOpen}
+          handleNewArea={handleNewArea}
+          completedImprovement={completedImprovement}
+          setView={setView}
         />
       ) : (
         <ParamsListView

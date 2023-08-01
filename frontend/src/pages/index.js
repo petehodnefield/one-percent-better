@@ -6,7 +6,6 @@ import { LoginContext } from "./_app";
 import Auth from "../utils/Auth";
 // Chart import
 import Link from "next/link";
-import GraphView from "../components/GraphView/GraphView";
 
 import ListView from "./list-view/index";
 import HomeContent from "../components/Home/HomeContent";
