@@ -1,9 +1,12 @@
 import React from "react";
 import Link from "next/link";
 import { todaysDate } from "../../utils/date";
+import { useMutation } from "@apollo/client";
+import { DELETE_AREA } from "../../utils/mutations";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import NoImprovements from "../NoImprovements/NoImprovements";
+import AreaDropdown from "../AreaDropdown/AreaDropdown";
 const ParamsGraphView = ({
   noImprovements,
   setAreaDropdownOpen,
@@ -21,6 +24,21 @@ const ParamsGraphView = ({
   setNewImprovement,
   newImprovement,
 }) => {
+  const [deleteArea] = useMutation(DELETE_AREA);
+
+  async function handleAreaDeletion(id) {
+    try {
+      await deleteArea({
+        variables: {
+          deleteAreaId: id,
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    window.location.replace("/");
+  }
+
   return (
     <div className="home-content rounded-lg">
       {noImprovements ? <NoImprovements /> : ""}
@@ -42,46 +60,66 @@ const ParamsGraphView = ({
             skills by 1%
           </p>{" "}
           {areaDropdownOpen ? (
-            <div className="home-content__areas-wrapper">
-              {meData.me.areas.map((area) => (
-                <Link
-                  href={`/${area._id}`}
-                  onClick={() => {
-                    setAreaDropdownOpen(!areaDropdownOpen);
-                  }}
-                  className="home-content__area"
-                  key={area.area}
-                >
-                  {area.area}
-                </Link>
-              ))}
-              {addNewAreaOpen ? (
-                <form
-                  onSubmit={(e) => handleNewArea(e)}
-                  className="home-content__area-form"
-                  action=""
-                >
-                  <input
-                    className="form__input home-content__area-input"
-                    type="text"
-                    onChange={(e) => setNewArea(e.target.value)}
-                  />
-                  <button type="submit" className="home-content__area-button">
-                    Submit
-                  </button>
-                </form>
-              ) : (
-                <div
-                  onClick={() => {
-                    setAddNewAreaOpen(!addNewAreaOpen);
-                  }}
-                  className="home-content__area"
-                >
-                  Add an area{" "}
-                </div>
-              )}
-            </div>
+            <AreaDropdown
+              meData={meData}
+              areaDropdownOpen={areaDropdownOpen}
+              handleAreaDeletion={handleAreaDeletion}
+              setNewArea={setNewArea}
+              setAddNewAreaOpen={setAddNewAreaOpen}
+              addNewAreaOpen={addNewAreaOpen}
+              setAreaDropdownOpen={setAreaDropdownOpen}
+              handleNewArea={handleNewArea}
+            />
           ) : (
+            // <div className="home-content__areas-wrapper">
+            //   {meData.me.areas.map((area) => (
+            //     <div className="home-content__area">
+            //       <Link
+            //         className="home-content__area-text"
+            //         href={`/${area._id}`}
+            //         onClick={() => {
+            //           setAreaDropdownOpen(!areaDropdownOpen);
+            //         }}
+            //         key={area._id}
+            //       >
+            //         {area.area}
+            //       </Link>
+            //       <div className="icon__delete-wrapper">
+            //         <p
+            //           className="icon__delete"
+            //           onClick={() => handleAreaDeletion(area._id)}
+            //         >
+            //           X
+            //         </p>
+            //       </div>
+            //     </div>
+            //   ))}
+            //   {addNewAreaOpen ? (
+            //     <form
+            //       onSubmit={(e) => handleNewArea(e)}
+            //       className="home-content__area-form"
+            //       action=""
+            //     >
+            //       <input
+            //         className="form__input home-content__area-input"
+            //         type="text"
+            //         onChange={(e) => setNewArea(e.target.value)}
+            //       />
+            //       <button type="submit" className="home-content__area-button">
+            //         Submit
+            //       </button>
+            //     </form>
+            //   ) : (
+            //     <div
+            //       onClick={() => {
+            //         setAddNewAreaOpen(!addNewAreaOpen);
+            //       }}
+            //       className="home-content__area"
+            //     >
+            //       <p className="home-content__area-text">Add an area </p>
+            //     </div>
+            //   )}
+            // </div>
             ""
           )}
         </div>

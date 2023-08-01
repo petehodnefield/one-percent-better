@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { ME, AREAS } from "../../utils/queries";
-import { ADD_IMPROVEMENT, ADD_AREA } from "../../utils/mutations";
+import { ADD_IMPROVEMENT, ADD_AREA, DELETE_AREA } from "../../utils/mutations";
 import Link from "next/link";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
@@ -10,10 +10,8 @@ import NoImprovements from "../NoImprovements/NoImprovements";
 import { todaysDate } from "../../utils/date";
 import Error from "../Error/Error";
 import ImprovementDetails from "../ImprovementDetails/ImprovementDetails";
+import AreaDropdown from "../AreaDropdown/AreaDropdown";
 const HomeContent = ({}) => {
-  // State handling our previous allImprovements data
-  // const [allImprovements, setAllImprovementss] = useState([]);
-  // State handling our form data
   const [newImprovement, setNewImprovement] = useState({});
   const [selectedArea, setSelectedArea] = useState("");
   const [allImprovements, setAllImprovements] = useState("");
@@ -28,7 +26,6 @@ const HomeContent = ({}) => {
   const [addArea] = useMutation(ADD_AREA);
 
   const { loading: meLoading, data: meData, error: meError } = useQuery(ME);
-
   // Areas Query
   const {
     loading: areaLoading,
@@ -45,6 +42,7 @@ const HomeContent = ({}) => {
       error: newImprovementError,
     },
   ] = useMutation(ADD_IMPROVEMENT);
+  const [deleteArea] = useMutation(DELETE_AREA);
 
   useEffect(() => {
     // Checks to see if meData exists yet. If not, return
@@ -58,7 +56,6 @@ const HomeContent = ({}) => {
     }
     // This is the code that runs if the user has only 1 area
     else if (meData.me.areas.length === 1) {
-      console.log("meData", meData.me.areas);
       setAreaId(meData.me.areas[0]._id);
       setSelectedArea(meData.me.areas[0].area);
 
@@ -68,6 +65,31 @@ const HomeContent = ({}) => {
         skillPercentage: 1,
         date: todaysDate,
       });
+
+      const allImprovements = meData.me.areas[0].improvements.map(
+        (data, index, arr) => {
+          if (arr.length - 1 === index) {
+            if (data.date === todaysDate) {
+              setCompletedImprovement(true);
+            }
+            const newSkillPercentage = data.skillPercentage * 1.01;
+            setNewImprovement({
+              ...newImprovement,
+              skillPercentage: newSkillPercentage,
+              date: todaysDate,
+            });
+          }
+          setAllImprovements((oldImprovements) => [
+            ...oldImprovements,
+            {
+              date: data.date,
+              description: data.description,
+              improvement: data.skillPercentage,
+              improvementId: data._id,
+            },
+          ]);
+        }
+      );
     }
     //This code run if the user already has previous allImprovements
     else {
@@ -104,11 +126,8 @@ const HomeContent = ({}) => {
 
   // Handler that adds a new improvement
   async function addNewImprovement() {
-    // Set today as completed (so you can't add more than one point)
-    setCompletedImprovement(true);
-
     try {
-      await addImprovement({
+      const newImprovementMutation = await addImprovement({
         variables: {
           date: todaysDate,
           skillPercentage: newImprovement.skillPercentage,
@@ -116,22 +135,38 @@ const HomeContent = ({}) => {
           areaId: areaId,
         },
       });
+      window.location.reload();
+      // setCompletedImprovement(true);
     } catch (e) {
       console.log(e);
     }
+  }
+
+  async function handleAreaDeletion(id) {
+    try {
+      await deleteArea({
+        variables: {
+          deleteAreaId: id,
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    window.location.replace("/");
   }
 
   // Function that runs when 'Add Improvement' button is clicked
   const handleFormSubmit = (e) => {
     e.preventDefault();
     addNewImprovement();
-    window.location.reload();
   };
 
   // Function that runs when a new area gets added
   const handleNewArea = async (e) => {
+    e.preventDefault();
     try {
       await addArea({ variables: { area: newArea, userId: userID } });
+      window.location.reload();
     } catch (e) {
       console.log(e);
     }
@@ -163,50 +198,16 @@ const HomeContent = ({}) => {
                 skills by 1%
               </p>{" "}
               {areaDropdownOpen ? (
-                <div className="home-content__areas-wrapper">
-                  {meData.me.areas.map((area) => (
-                    <Link
-                      href={`/${area._id}`}
-                      onClick={() => {
-                        setSelectedArea(area.area);
-                        setAreaId(area._id);
-                        setAreaDropdownOpen(!areaDropdownOpen);
-                      }}
-                      className="home-content__area"
-                      key={area._id}
-                    >
-                      {area.area}
-                    </Link>
-                  ))}
-                  {addNewAreaOpen ? (
-                    <form
-                      onSubmit={(e) => handleNewArea(e)}
-                      className="home-content__area-form"
-                      action=""
-                    >
-                      <input
-                        className="form__input home-content__area-input"
-                        type="text"
-                        onChange={(e) => setNewArea(e.target.value)}
-                      />
-                      <button
-                        type="submit"
-                        className="home-content__area-button"
-                      >
-                        Submit
-                      </button>
-                    </form>
-                  ) : (
-                    <div
-                      onClick={() => {
-                        setAddNewAreaOpen(!addNewAreaOpen);
-                      }}
-                      className="home-content__area"
-                    >
-                      Add an area{" "}
-                    </div>
-                  )}
-                </div>
+                <AreaDropdown
+                  meData={meData}
+                  areaDropdownOpen={areaDropdownOpen}
+                  handleAreaDeletion={handleAreaDeletion}
+                  setNewArea={setNewArea}
+                  setAddNewAreaOpen={setAddNewAreaOpen}
+                  addNewAreaOpen={addNewAreaOpen}
+                  setAreaDropdownOpen={setAreaDropdownOpen}
+                  handleNewArea={handleNewArea}
+                />
               ) : (
                 ""
               )}
@@ -271,7 +272,9 @@ const HomeContent = ({}) => {
                 ></textarea>
               </div>
               <div className="improvement-form__text-wrapper improvement-form__text-wrapper--centered">
-                <h3 className="improvement-form__title--lg">Today&apos;s date</h3>
+                <h3 className="improvement-form__title--lg">
+                  Today&apos;s date
+                </h3>
                 <p className="improvement-form__date">{todaysDate}</p>
                 <button
                   type="submit"

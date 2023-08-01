@@ -74,6 +74,7 @@ const ParamsHomeContent = ({ noImprovements, areaID }) => {
         skillPercentage: 1,
         date: todaysDate,
       });
+      setCompletedImprovement(false);
     } else {
       setAllImprovements([]);
       setSelectedArea(areaData.area.area);
