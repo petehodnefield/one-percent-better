@@ -7,13 +7,9 @@ import {
   UPDATE_IMPROVEMENT,
 } from "../../utils/mutations";
 import { ME, SINGLE_AREA } from "../../utils/queries";
-import NoImprovements from "../NoImprovements/NoImprovements";
-import Link from "next/link";
 import { todaysDate } from "../../utils/date";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
-import ParamsGraphView from "./ParamsGraphView";
-import ParamsListView from "./ParamsListView";
 import GraphView from "./GraphView";
 import ListView from "./ListView";
 const ParamsHomeContent = ({ noImprovements, areaID }) => {

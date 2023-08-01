@@ -7,7 +7,6 @@ const ImprovementDetails = ({ improvement }) => {
   const [newDescription, setNewDescription] = useState("");
   const [inputDisabled, setInputDisabled] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  console.log("improvementDetials", improvement);
   const inputRef = useRef(null);
 
   const [deleteImprovement, { loading, data, error }] =

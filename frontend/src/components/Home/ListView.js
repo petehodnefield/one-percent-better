@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import ImprovementDetails from "../ImprovementDetails/ImprovementDetails";
+import AreaDropdown from "../AreaDropdown/AreaDropdown";
 const ListView = ({
   newImprovement,
   setNewImprovement,
@@ -39,45 +40,16 @@ const ListView = ({
             skills by 1%.
           </p>{" "}
           {areaDropdownOpen ? (
-            <div className="home-content__areas-wrapper">
-              {meData.me.areas.map((area) => (
-                <Link
-                  href={`/${area._id}`}
-                  onClick={() => {
-                    setAreaDropdownOpen(!areaDropdownOpen);
-                  }}
-                  className="home-content__area"
-                  key={area.area}
-                >
-                  {area.area}
-                </Link>
-              ))}
-              {addNewAreaOpen ? (
-                <form
-                  onSubmit={(e) => handleNewArea(e)}
-                  className="home-content__area-form"
-                  action=""
-                >
-                  <input
-                    className="form__input home-content__area-input"
-                    type="text"
-                    onChange={(e) => setNewArea(e.target.value)}
-                  />
-                  <button type="submit" className="home-content__area-button">
-                    Submit
-                  </button>
-                </form>
-              ) : (
-                <div
-                  onClick={() => {
-                    setAddNewAreaOpen(!addNewAreaOpen);
-                  }}
-                  className="home-content__area"
-                >
-                  Add an area{" "}
-                </div>
-              )}
-            </div>
+            <AreaDropdown
+              meData={meData}
+              areaDropdownOpen={areaDropdownOpen}
+              handleAreaDeletion={handleAreaDeletion}
+              setNewArea={setNewArea}
+              setAddNewAreaOpen={setAddNewAreaOpen}
+              addNewAreaOpen={addNewAreaOpen}
+              setAreaDropdownOpen={setAreaDropdownOpen}
+              handleNewArea={handleNewArea}
+            />
           ) : (
             ""
           )}

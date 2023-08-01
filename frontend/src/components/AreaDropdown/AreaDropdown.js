@@ -13,14 +13,13 @@ const AreaDropdown = ({
   return (
     <div className="home-content__areas-wrapper">
       {meData.me.areas.map((area) => (
-        <div className="home-content__area">
+        <div key={area._id} className="home-content__area">
           <Link
             className="home-content__area-text"
             href={`/${area._id}`}
             onClick={() => {
               setAreaDropdownOpen(!areaDropdownOpen);
             }}
-            key={area._id}
           >
             {area.area}
           </Link>
