@@ -23,13 +23,11 @@ const AreaDropdown = ({
           >
             {area.area}
           </Link>
-          <div className="icon__delete-wrapper">
-            <p
-              className="icon__delete"
-              onClick={() => handleAreaDeletion(area._id)}
-            >
-              X
-            </p>
+          <div
+            onClick={() => handleAreaDeletion(area._id)}
+            className="icon__delete-wrapper"
+          >
+            <p className="icon__delete">X</p>
           </div>
         </div>
       ))}
@@ -55,7 +53,9 @@ const AreaDropdown = ({
           }}
           className="home-content__area"
         >
-          <p className="home-content__area-text">Add an area </p>
+          <p className="home-content__area-text home-content__area-text--full">
+            Add an area{" "}
+          </p>
         </div>
       )}
     </div>

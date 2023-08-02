@@ -340,20 +340,27 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 0 0 1rem;
-  width: 220px;
+  max-width: 15rem;
+  overflow-x: hidden;
   cursor: pointer;
-}
-.home-content__area:hover {
-  background-color: var(--primary);
-  transition: 200ms ease-in-out;
-}
-
-.home-content__area:hover .home-content__area-text {
-  color: var(--white);
 }
 .home-content__area-text {
   color: var(--dark);
+  height: 100%;
+  width: 12rem;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+}
+.home-content__area-text:hover {
+  background-color: var(--primary);
+  color: var(--white);
+  transition: 200ms ease-in-out;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+.home-content__area-text--full {
+  width: 100%;
 }
 .icon__delete-wrapper {
   height: 100%;
@@ -383,17 +390,17 @@ a {
   transition: 200ms ease-in-out;
 }
 .home-content__area-form {
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .home-content__area-input {
   height: 3rem;
-  width: 100%;
   font-size: 1rem;
   padding-left: 1rem;
 }
 .home-content__area-button {
-  position: absolute;
-  right: 0;
+  cursor: pointer;
   height: 3rem;
 }
 .home-data {

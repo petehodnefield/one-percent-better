@@ -122,7 +122,7 @@ const GraphView = ({
                 completedImprovement ? "btn--disabled" : ""
               }`}
             >
-              Add improvement
+              {completedImprovement ? "Completed" : "Add improvement"}
             </button>
           </div>
         </div>
