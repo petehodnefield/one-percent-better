@@ -144,10 +144,15 @@ export const resolvers = {
     },
 
     deleteImprovement: async (parent, args) => {
-      const deletedImprovement = await Improvement.findOneAndDelete({
-        _id: args.id,
-      });
-      return deletedImprovement;
+      try {
+        const deletedImprovement = await Improvement.findOneAndDelete({
+          _id: args.id,
+        });
+        const getAllImprovements = await Improvement.find({});
+        return getAllImprovements;
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
 };

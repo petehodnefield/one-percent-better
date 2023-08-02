@@ -19,6 +19,7 @@ const ListView = ({
   completedImprovement,
   handleAreaDeletion,
   setView,
+  areaID,
 }) => {
   return (
     <div>
@@ -69,6 +70,7 @@ const ListView = ({
                   <ImprovementDetails
                     key={improvement.date}
                     improvement={improvement}
+                    areaID={areaID}
                   />
                 ))
             : ""}

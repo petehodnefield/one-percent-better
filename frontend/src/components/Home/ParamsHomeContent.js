@@ -199,6 +199,7 @@ const ParamsHomeContent = ({ noImprovements, areaID }) => {
           handleNewArea={handleNewArea}
           completedImprovement={completedImprovement}
           setView={setView}
+          areaID={areaID}
         />
       )}
     </div>

@@ -1,14 +1,14 @@
 import React, { useState, useRef } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { DELETE_IMPROVEMENT, UPDATE_IMPROVEMENT } from "../../utils/mutations";
+import { SINGLE_AREA } from "../../utils/queries";
 import Loading from "../Loading/Loading";
 import Error from "../Error/Error";
-const ImprovementDetails = ({ improvement }) => {
+const ImprovementDetails = ({ improvement, areaID }) => {
   const [newDescription, setNewDescription] = useState("");
   const [inputDisabled, setInputDisabled] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef(null);
-
   const [deleteImprovement, { loading, data, error }] =
     useMutation(DELETE_IMPROVEMENT);
 
@@ -16,6 +16,30 @@ const ImprovementDetails = ({ improvement }) => {
     updateImprovementMutation,
     { loading: updateLoading, data: updateData, error: updateError },
   ] = useMutation(UPDATE_IMPROVEMENT);
+
+  const {
+    loading: areaLoading,
+    data: areaData,
+    error: areaError,
+  } = useQuery(SINGLE_AREA, { variables: { areaId: areaID } });
+  async function updateEveryImprovement(data, index) {
+    if (index === 0) {
+      const updateImprovement = await updateImprovementMutation({
+        variables: {
+          updateImprovementId: data._id,
+          skillPercentage: 1,
+        },
+      });
+    } else {
+      const skillPercentageMultiple = 1 * 1.01 ** index;
+      const updateImprovements = await updateImprovementMutation({
+        variables: {
+          updateImprovementId: data._id,
+          skillPercentage: skillPercentageMultiple,
+        },
+      });
+    }
+  }
 
   async function removeImprovement(improvement) {
     try {
@@ -25,7 +49,13 @@ const ImprovementDetails = ({ improvement }) => {
           deleteImprovementId: improvement,
         },
       });
-      window.location.reload();
+      const getRemainingImprovements = await areaData.area.improvements.map(
+        (data, index, arr) => {
+          console.log("data", data);
+          // updateEveryImprovement(data, index);
+        }
+      );
+      // window.location.reload();
     } catch (e) {
       console.log(e);
     }

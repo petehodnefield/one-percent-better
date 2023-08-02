@@ -50,7 +50,7 @@ export const typeDefs = `
 
         deleteUser(id: ID!): User
         deleteArea(id: ID!): Area
-        deleteImprovement(id: ID!): Improvement
+        deleteImprovement(id: ID!): [Improvement]
 
         login(username: String!, password: String!): Auth
 
