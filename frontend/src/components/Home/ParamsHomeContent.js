@@ -12,7 +12,9 @@ import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import GraphView from "./GraphView";
 import ListView from "./ListView";
+import Welcome from "../../pages/welcome";
 const ParamsHomeContent = ({ noImprovements, areaID }) => {
+  const [noAreas, setNoAreas] = useState(false);
   const [selectedArea, setSelectedArea] = useState("");
   const [allImprovements, setAllImprovements] = useState("");
   const [view, setView] = useState("graph");
@@ -22,7 +24,6 @@ const ParamsHomeContent = ({ noImprovements, areaID }) => {
   const [newArea, setNewArea] = useState("");
   const [userID, setUserID] = useState("");
   const [newImprovement, setNewImprovement] = useState("");
-  // console.log("newImprovement", newImprovement);
 
   const { loading, data: meData, error } = useQuery(ME);
   const [deleteArea] = useMutation(DELETE_AREA);
@@ -68,9 +69,12 @@ const ParamsHomeContent = ({ noImprovements, areaID }) => {
       areaData.area.area === undefined
     ) {
       return;
+    } else if (!areaData.area) {
+      setNoAreas(true);
     }
     // If there's no improvements yet,
     else if (areaData.area.improvements.length === 0) {
+      console.log(true);
       console.log("There are no improvements!");
       setAllImprovements([]);
       setSelectedArea(areaData.area.area);
@@ -154,6 +158,9 @@ const ParamsHomeContent = ({ noImprovements, areaID }) => {
     window.location.replace("/");
   }
 
+  if (noAreas === true) {
+    return <Welcome />;
+  }
   return (
     <div>
       {view === "graph" ? (
