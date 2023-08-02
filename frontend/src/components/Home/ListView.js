@@ -75,9 +75,9 @@ const ListView = ({
                 ))
             : ""}
         </div>
-        <Link href="/" className=" list-view--mobile">
+        <p onClick={() => setView("graph")} className=" list-view--mobile">
           Graph view
-        </Link>
+        </p>
       </div>
     </div>
   );

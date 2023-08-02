@@ -47,7 +47,7 @@ export const resolvers = {
 
     // Improvement Queries
     improvements: async () => {
-      return await Improvement.find();
+      return await Improvement.find().sort({ skillPercentage: "asc" });
     },
     improvement: async (parent, args) => {
       return await Improvement.findOne({ _id: args.id });
@@ -148,7 +148,9 @@ export const resolvers = {
         const deletedImprovement = await Improvement.findOneAndDelete({
           _id: args.id,
         });
-        const getAllImprovements = await Improvement.find({});
+        const getAllImprovements = await Improvement.find({}).sort({
+          skillPercentage: "asc",
+        });
         return getAllImprovements;
       } catch (e) {
         console.log(e);

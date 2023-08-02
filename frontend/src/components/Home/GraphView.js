@@ -87,9 +87,9 @@ const GraphView = ({
         )}
         {/* Graph with data */}
       </div>
-      <Link href="/list-view" className=" list-view--mobile">
+      <p onClick={() => setView("list")} className=" list-view--mobile">
         List view
-      </Link>
+      </p>
       {/* Form where you input what you worked on that day */}
       <form onSubmit={handleFormSubmit} id="improvementForm" className="form">
         <div className="improvement-form__content">

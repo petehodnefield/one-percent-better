@@ -49,12 +49,13 @@ const ImprovementDetails = ({ improvement, areaID }) => {
           deleteImprovementId: improvement,
         },
       });
-      const getRemainingImprovements = await areaData.area.improvements.map(
-        (data, index, arr) => {
-          console.log("data", data);
-          // updateEveryImprovement(data, index);
-        }
-      );
+      // console.log(removeImprovement);
+      const getRemainingImprovements =
+        await removeImprovement.data.deleteImprovement.map(
+          (data, index, arr) => {
+            updateEveryImprovement(data, index);
+          }
+        );
       // window.location.reload();
     } catch (e) {
       console.log(e);

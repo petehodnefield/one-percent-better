@@ -203,6 +203,7 @@ const HomeContent = ({}) => {
           completedImprovement={completedImprovement}
           setView={setView}
           handleAreaDeletion={handleAreaDeletion}
+          areaID={areaId}
         />
       ) : (
         <ListView
@@ -221,6 +222,7 @@ const HomeContent = ({}) => {
           handleNewArea={handleNewArea}
           completedImprovement={completedImprovement}
           setView={setView}
+          areaID={areaId}
         />
       )}
     </div>
