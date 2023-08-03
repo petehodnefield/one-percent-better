@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { LoginContext } from "../_app";
 import Link from "next/link";
 import Auth from "../../utils/Auth";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../../utils/mutations";
 import Loading from "../../components/Loading/Loading";
 import Banner from "../../components/Banner/Banner";
+import Home from "..";
 const Login = () => {
   const [userInfo, setUserInfo] = useState({});
   const [login, { loading, data, error }] = useMutation(LOGIN);
   const [errorMessage, setErrorMessage] = useState("");
+  const [loggedIn, setLoggedIn] = useContext(LoginContext);
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -25,7 +28,9 @@ const Login = () => {
   };
 
   if (loading) return <Loading />;
-  return (
+  return loggedIn ? (
+    <Home />
+  ) : (
     <div>
       <form
         onSubmit={(e) => handleFormSubmit(e)}
