@@ -81,12 +81,16 @@ export const UPDATE_IMPROVEMENT = gql`
 `;
 
 export const DELETE_IMPROVEMENT = gql`
-  mutation DeleteImprovement($deleteImprovementId: ID!) {
-    deleteImprovement(id: $deleteImprovementId) {
+  mutation DeleteImprovement($deleteImprovementId: ID!, $areaId: ID!) {
+    deleteImprovement(id: $deleteImprovementId, areaID: $areaId) {
       _id
-      date
-      skillPercentage
-      description
+      area
+      improvements {
+        _id
+        date
+        skillPercentage
+        description
+      }
     }
   }
 `;

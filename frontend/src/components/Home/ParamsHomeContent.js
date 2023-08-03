@@ -74,8 +74,6 @@ const ParamsHomeContent = ({ noImprovements, areaID }) => {
     }
     // If there's no improvements yet,
     else if (areaData.area.improvements.length === 0) {
-      console.log(true);
-      console.log("There are no improvements!");
       setAllImprovements([]);
       setSelectedArea(areaData.area.area);
       setNewImprovement({
@@ -91,10 +89,8 @@ const ParamsHomeContent = ({ noImprovements, areaID }) => {
       const improvements = areaSpecificImprovements.map((data, index, arr) => {
         if (arr.length - 1 === index) {
           if (data.date === todaysDate) {
-            console.log("dates match!");
             setCompletedImprovement(true);
           } else {
-            console.log("Dates Dont match!");
             setCompletedImprovement(false);
           }
         }
@@ -120,7 +116,6 @@ const ParamsHomeContent = ({ noImprovements, areaID }) => {
   // Function that runs when 'Add Improvement' button is clicked
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(newImprovement, areaID);
     try {
       await addImprovement({
         variables: {
@@ -199,6 +194,7 @@ const ParamsHomeContent = ({ noImprovements, areaID }) => {
           addNewAreaOpen={addNewAreaOpen}
           handleNewArea={handleNewArea}
           completedImprovement={completedImprovement}
+          handleAreaDeletion={handleAreaDeletion}
           setView={setView}
           areaID={areaID}
         />

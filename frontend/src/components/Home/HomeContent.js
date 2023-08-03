@@ -222,6 +222,7 @@ const HomeContent = ({}) => {
           handleNewArea={handleNewArea}
           completedImprovement={completedImprovement}
           setView={setView}
+          handleAreaDeletion={handleAreaDeletion}
           areaID={areaId}
         />
       )}

@@ -23,13 +23,11 @@ const AreaDropdown = ({
           >
             {area.area}
           </Link>
-          <div className="icon__delete-wrapper">
-            <p
-              className="icon__delete"
-              onClick={() => handleAreaDeletion(area._id)}
-            >
-              X
-            </p>
+          <div
+            onClick={() => handleAreaDeletion(area._id)}
+            className="icon__delete-wrapper"
+          >
+            <p className="icon__delete">X</p>
           </div>
         </div>
       ))}

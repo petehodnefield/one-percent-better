@@ -47,11 +47,12 @@ const ImprovementDetails = ({ improvement, areaID }) => {
       const removeImprovement = await deleteImprovement({
         variables: {
           deleteImprovementId: improvement,
+          areaId: areaID,
         },
       });
       // console.log(removeImprovement);
       const getRemainingImprovements =
-        await removeImprovement.data.deleteImprovement.map(
+        await removeImprovement.data.deleteImprovement.improvements.map(
           (data, index, arr) => {
             updateEveryImprovement(data, index);
           }
