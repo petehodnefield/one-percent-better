@@ -47,10 +47,12 @@ export const typeDefs = `
         updateUser(id: ID!, username: String, password: String): User
         updateArea(id: ID!, area: String): Area
         updateImprovement(id: ID!, date: String, skillPercentage: Float, description: String): Improvement
+        
+        
 
         deleteUser(id: ID!): User
         deleteArea(id: ID!): Area
-        deleteImprovement(id: ID!): [Improvement]
+        deleteImprovement(id: ID!, areaID: ID!): Area
 
         login(username: String!, password: String!): Auth
 

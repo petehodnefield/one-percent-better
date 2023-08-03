@@ -143,14 +143,31 @@ export const resolvers = {
       return updatedImprovement;
     },
 
+    // updateImprovementByArea: async (parent, args) => {
+    //   const findArea = await Area.findOne({ _id: args.areaId });
+    //   const updatedImprovement = await Improvement.findOneAndUpdate(
+    //     { _id: args.id },
+    //     {
+    //       date: args.date,
+    //       skillPercentage: args.skillPercentage,
+    //       description: args.description,
+    //     }
+    //   );
+    //   return updatedImprovement;
+    // },
+
     deleteImprovement: async (parent, args) => {
       try {
         const deletedImprovement = await Improvement.findOneAndDelete({
           _id: args.id,
         });
-        const getAllImprovements = await Improvement.find({}).sort({
-          skillPercentage: "asc",
-        });
+        const getAllImprovements = await Area.findOne({
+          _id: args.areaID,
+        })
+          .populate("improvements")
+          .sort({
+            skillPercentage: "asc",
+          });
         return getAllImprovements;
       } catch (e) {
         console.log(e);
