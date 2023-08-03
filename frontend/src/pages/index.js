@@ -13,15 +13,23 @@ import LoginForm from "../components/Login/LoginForm";
 import Banner from "../components/Banner/Banner";
 import Login from "./login";
 import { logout } from "../utils/logout";
+import Welcome from "./welcome";
 
 export default function Home() {
   // Login Context
   const [loggedIn, setLoggedIn] = useContext(LoginContext);
+  const [noAreas, setNoAreas] = useState(false);
 
-  return (
+  return noAreas ? (
+    <Welcome />
+  ) : (
     <div className="home">
       <Banner />
-      {loggedIn ? <HomeContent /> : <Login />}
+      {loggedIn ? (
+        <HomeContent noAreas={noAreas} setNoAreas={setNoAreas} />
+      ) : (
+        <Login />
+      )}
 
       {loggedIn ? (
         <button

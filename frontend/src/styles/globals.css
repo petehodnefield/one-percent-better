@@ -434,6 +434,27 @@ a {
     height: 16rem;
   }
 }
+.no-improvement__text {
+  font-size: 1.125rem;
+  max-width: 660px;
+  text-align: center;
+}
+.no-improvement__text-wrapper {
+  background-color: var(--white);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  width: 100%;
+  justify-content: center;
+  max-width: 660px;
+  border-radius: 1rem;
+}
+@media screen and (min-width: 768px) {
+  .no-improvement__text-wrapper {
+    padding: 4rem;
+  }
+}
 .home-data--list {
   overflow-y: scroll;
   height: 100%;

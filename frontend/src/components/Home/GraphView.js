@@ -58,8 +58,14 @@ const GraphView = ({
             ""
           )}
         </div>
-        {noImprovements ? (
-          ""
+        {allImprovements.length === 0 ? (
+          <div className="no-improvement__text-wrapper">
+            <p className="no-improvement__text">
+              You have no improvements yet for:{" "}
+              <span className="bold">{selectedArea}</span>. <br />
+              Add one below to get started!
+            </p>
+          </div>
         ) : (
           <div className="home-data rounded">
             {allImprovements ? (

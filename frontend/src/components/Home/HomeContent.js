@@ -14,8 +14,7 @@ import AreaDropdown from "../AreaDropdown/AreaDropdown";
 import GraphView from "./GraphView";
 import ListView from "./ListView";
 import Welcome from "../../pages/welcome";
-const HomeContent = ({}) => {
-  const [noAreas, setNoAreas] = useState(false);
+const HomeContent = ({ noAreas, setNoAreas }) => {
   const [newImprovement, setNewImprovement] = useState({});
   const [selectedArea, setSelectedArea] = useState("");
   const [allImprovements, setAllImprovements] = useState("");
@@ -28,8 +27,9 @@ const HomeContent = ({}) => {
   const [areaDropdownOpen, setAreaDropdownOpen] = useState(false);
   const [view, setView] = useState("graph");
   const [addArea] = useMutation(ADD_AREA);
-
   const { loading: meLoading, data: meData, error: meError } = useQuery(ME);
+
+  console.log("newImprovement", newImprovement);
   // Areas Query
   const {
     loading: areaLoading,
@@ -57,9 +57,10 @@ const HomeContent = ({}) => {
       meData.me.areas === undefined
     ) {
       return;
-    }
-    // This is the code that runs if the user has only 1 area
-    else if (meData.me.areas.length === 1) {
+    } else if (meData.me.areas.length === 0) {
+      setNoAreas(true);
+    } else if (meData.me.areas.length >= 1) {
+      console.log("hello");
       setAreaId(meData.me.areas[0]._id);
       setSelectedArea(meData.me.areas[0].area);
 
@@ -83,37 +84,8 @@ const HomeContent = ({}) => {
               date: todaysDate,
             });
           }
-          setAllImprovements((oldImprovements) => [
-            ...oldImprovements,
-            {
-              date: data.date,
-              description: data.description,
-              improvement: data.skillPercentage,
-              improvementId: data._id,
-            },
-          ]);
-        }
-      );
-    }
-    //This code run if the user already has previous allImprovements
-    else {
-      setSelectedArea(meData.me.areas[0].area);
-      setUserId(meData.me._id);
-      setAreaId(meData.me.areas[0]._id);
+          console.log("himom");
 
-      const allImprovements = meData.me.areas[0].improvements.map(
-        (data, index, arr) => {
-          if (arr.length - 1 === index) {
-            if (data.date === todaysDate) {
-              setCompletedImprovement(true);
-            }
-            const newSkillPercentage = data.skillPercentage * 1.01;
-            setNewImprovement({
-              ...newImprovement,
-              skillPercentage: newSkillPercentage,
-              date: todaysDate,
-            });
-          }
           setAllImprovements((oldImprovements) => [
             ...oldImprovements,
             {
