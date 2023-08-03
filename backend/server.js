@@ -14,7 +14,7 @@ const db = await mongoose.connect(
   process.env.MONGODB_URI
   // || "mongodb://127.0.0.1:27017/one-percent-better"
 );
-// const seed = await seedDB();
+const seed = await seedDB();
 console.info("connected to db!");
 
 const server = new ApolloServer({
