@@ -204,16 +204,16 @@ export default async function seedDB() {
     { $push: { improvements: improvements } },
     { new: true }
   );
-  // const updateAreaTwo = await Area.findOneAndUpdate(
-  //   { _id: createAreaTwo._id },
-  //   { $push: { improvements: improvements.slice(0, 22) } },
-  //   { new: true }
-  // );
-  // const updateAreaThree = await Area.findOneAndUpdate(
-  //   { _id: createAreaThree._id },
-  //   { $push: { improvements: improvements.slice(0, 14) } },
-  //   { new: true }
-  // );
+  const updateAreaTwo = await Area.findOneAndUpdate(
+    { _id: createAreaTwo._id },
+    { $push: { improvements: improvements.slice(0, 22) } },
+    { new: true }
+  );
+  const updateAreaThree = await Area.findOneAndUpdate(
+    { _id: createAreaThree._id },
+    { $push: { improvements: improvements.slice(0, 14) } },
+    { new: true }
+  );
 
   console.log(`🌱 db seeded!`);
 }
