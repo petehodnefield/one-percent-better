@@ -57,7 +57,7 @@ const ImprovementDetails = ({ improvement, areaID }) => {
             updateEveryImprovement(data, index);
           }
         );
-      // window.location.reload();
+      window.location.reload();
     } catch (e) {
       console.log(e);
     }
