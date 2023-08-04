@@ -10,17 +10,17 @@ export const improvementsData = [
   {
     date: "June 23, 2023",
     skillPercentage: generateSkill(0),
-    description: "Today, I learned about interfaces in TypeScript.",
+    description: "Today, I learned this new thing...",
   },
   {
     date: "June 24, 2023",
     skillPercentage: generateSkill(1),
-    description: "Today, I designed NeuroHabit.",
+    description: "Today, I learned this new thing...",
   },
   {
     date: "June 25, 2023",
     skillPercentage: generateSkill(2),
-    description: "Today, learned about server-side React components.",
+    description: "Today, I learned this new thing...",
   },
   {
     date: "June 26, 2023",

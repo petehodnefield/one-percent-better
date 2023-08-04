@@ -54,6 +54,9 @@ const ListView = ({
           ) : (
             ""
           )}
+          <p onClick={() => setView("graph")} className=" list-view--mobile">
+            Graph view
+          </p>
         </div>
         {/* Container with improvement data */}
         <div className="  home-data--list rounded">
@@ -75,9 +78,6 @@ const ListView = ({
                 ))
             : ""}
         </div>
-        <p onClick={() => setView("graph")} className=" list-view--mobile">
-          Graph view
-        </p>
       </div>
     </div>
   );

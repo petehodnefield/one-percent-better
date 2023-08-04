@@ -57,7 +57,7 @@ const SignUp = () => {
           <form
             onSubmit={handleFormSubmit}
             id="signupForm"
-            className="form form--column"
+            className="form form--column form--login-signup"
           >
             {" "}
             <h2 className="form__title">Signup</h2>

@@ -31,11 +31,11 @@ const Login = () => {
   return loggedIn ? (
     <Home />
   ) : (
-    <div>
+    <div className="container">
       <form
         onSubmit={(e) => handleFormSubmit(e)}
         id="loginForm"
-        className="form form--column"
+        className="form form--column form--login-signup"
       >
         <h2 className="form__title">Login</h2>
         <div className="form__input-label-wrapper form__input-label-wrapper--mgsm">

@@ -156,7 +156,7 @@ const HomeContent = ({ noAreas, setNoAreas }) => {
     return <Welcome />;
   }
   return (
-    <div className=" rounded-lg">
+    <div className="container rounded-lg">
       {view === "graph" ? (
         <GraphView
           newImprovement={newImprovement}
