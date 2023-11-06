@@ -13,14 +13,12 @@ const ListView = ({ areaId }) => {
   // Fetch our API for all improvements
   const [improvements, setImprovements] = useState();
   const { loading, data, error } = useQuery(ME);
-  console.log("data", data);
   useEffect(() => {
     if (data === undefined || data.me === null) {
       return;
     } else {
       setImprovements(data.me.areas[0].improvements);
     }
-    console.log("randy orton", improvements);
   }, [data]);
 
   if (loading) return <div>Loading...</div>;

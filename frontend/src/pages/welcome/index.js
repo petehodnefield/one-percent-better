@@ -19,7 +19,6 @@ const Welcome = () => {
     if (meData === undefined || meData.me === null) {
       return;
     } else {
-      console.log(meData);
       setUserId(meData.me._id);
       setUsername(meData.me.username);
     }

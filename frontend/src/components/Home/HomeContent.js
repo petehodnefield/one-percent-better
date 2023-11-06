@@ -29,7 +29,6 @@ const HomeContent = ({ noAreas, setNoAreas }) => {
   const [addArea] = useMutation(ADD_AREA);
   const { loading: meLoading, data: meData, error: meError } = useQuery(ME);
 
-  console.log("newImprovement", newImprovement);
   // Areas Query
   const {
     loading: areaLoading,
@@ -60,7 +59,6 @@ const HomeContent = ({ noAreas, setNoAreas }) => {
     } else if (meData.me.areas.length === 0) {
       setNoAreas(true);
     } else if (meData.me.areas.length >= 1) {
-      console.log("hello");
       setAreaId(meData.me.areas[0]._id);
       setSelectedArea(meData.me.areas[0].area);
 
@@ -84,7 +82,6 @@ const HomeContent = ({ noAreas, setNoAreas }) => {
               date: todaysDate,
             });
           }
-          console.log("himom");
 
           setAllImprovements((oldImprovements) => [
             ...oldImprovements,

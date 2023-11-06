@@ -12,7 +12,6 @@ const SignUp = () => {
   const [usernameAvailable, setUsernameAvailable] = useState(true);
   const [loggedIn, setLoggedIn] = useContext(LoginContext);
   const [addUser, { loading, data, error }] = useMutation(ADD_USER);
-  console.log("usernameAvailable", usernameAvailable);
   const {
     loading: usernameLoading,
     data: usernameData,
